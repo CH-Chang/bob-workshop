@@ -192,7 +192,8 @@ function restoreTabState() {
 function updatePageTitle(tabId) {
     const titles = {
         'full': 'IBM Bob Workshop 行前準備 - 完整版',
-        'quick': 'IBM Bob Workshop 行前準備 - 精簡版'
+        'quick': 'IBM Bob Workshop 行前準備 - 精簡版',
+        'handson': 'IBM Bob Workshop 行前準備 - 帶著動手做'
     };
     
     if (titles[tabId]) {

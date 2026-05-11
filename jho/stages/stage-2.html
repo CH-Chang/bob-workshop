@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>階段 2 - 產生測試 | IBM Bob SDLC 示範</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme-toggle.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fa;
+    --surface2: #e9ecef;
+    --border: #dee2e6;
+    --accent: #0066cc;
+    --accent2: #00a896;
+    --warn: #ff8c00;
+    --text: #212529;
+    --muted: #495057;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .meta span { color: #000000; }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .home-link:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  
+  /* LAYOUT */
+  .main-layout {
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 51px;
+    height: calc(100vh - 51px);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .toc-list {
+    list-style: none;
+  }
+
+  .toc-item {
+    margin-bottom: 2px;
+  }
+
+  .toc-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .toc-link:hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .toc-link.active {
+    background: var(--surface2);
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 24px;
+  }
+
+  .toc-label {
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .toc-optional {
+    opacity: 0.6;
+    font-size: 11px;
+  }
+
+  /* CONTENT */
+  .container {flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    overflow-y: auto;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  }
+
+  /* Original container styles below */
+  .old-container-placeholder {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1;
+  }
+
+  .stage-header {
+    margin-bottom: 30px;
+  }
+
+  .stage-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .stage-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .stage-desc {
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  
+  .tp-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,102,204,0.2);
+  }
+
+  .tp-icon {
+    font-size: 16px;
+  }
+
+  .tp-label {
+    
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .talking-point {
+    background: linear-gradient(135deg, rgba(0,102,204,0.05), rgba(0,168,150,0.03));
+    border: 1px solid rgba(0,102,204,0.3);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .tp-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tp-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .tp-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 25px 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .prompt-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .prompt-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .prompt-body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #495057;
+    padding: 14px;
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.02);
+    display: none;
+  }
+
+  .prompt-body.visible {
+    display: block;
+  }
+
+  .prompt-toggle {
+    font-size: 10px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .prompt-toggle.open {
+    transform: rotate(180deg);
+  }
+
+  .copy-btn {
+    padding: 4px 10px;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent2);
+  }
+
+  
+  .note-header, .tip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,168,150,0.2);
+  }
+
+  .tip-header {
+    border-bottom-color: rgba(255,140,0,0.2);
+  }
+
+  .note-icon, .tip-icon {
+    font-size: 16px;
+  }
+
+  .note-label, .tip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .note-label {
+    color: var(--accent2);
+  }
+
+  .tip-label {
+    color: var(--warn);
+  }
+
+  .stage-note {
+    background: rgba(0,168,150,0.08);
+    border: 1px solid rgba(0,168,150,0.3);
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 15px 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .stage-tip {
+    background: rgba(255,140,0,0.08);
+    border: 1px solid rgba(255,140,0,0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 15px 0;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    padding: 10px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .nav-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      IBM BOB — SDLC DEMO FLOW
+    </div>
+    <div class="meta">
+      <span>階段 2 / 共 8 階段</span>
+      <a href="../index.html" class="home-link">↑ 首頁</a>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">目錄</div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <a href="stage-0.html" class="toc-link">
+            <span class="toc-num">00</span>
+            <span class="toc-label">示範簡介</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1.html" class="toc-link">
+            <span class="toc-num">01</span>
+            <span class="toc-label">Bob 建構應用程式</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1a.html" class="toc-link toc-optional">
+            <span class="toc-num">01a</span>
+            <span class="toc-label">Java 現代化</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2.html" class="toc-link active">
+            <span class="toc-num">02</span>
+            <span class="toc-label">產生測試</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2b.html" class="toc-link">
+            <span class="toc-num">02b</span>
+            <span class="toc-label">安全掃描</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-3.html" class="toc-link">
+            <span class="toc-num">03</span>
+            <span class="toc-label">基礎設施即程式碼</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4.html" class="toc-link">
+            <span class="toc-num">04</span>
+            <span class="toc-label">部署至 OpenShift</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4b.html" class="toc-link">
+            <span class="toc-num">04b</span>
+            <span class="toc-label">CI/CD 流水線</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-5.html" class="toc-link">
+            <span class="toc-num">05</span>
+            <span class="toc-label">Day-2 SRE 維運</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="container">
+    <div class="stage-header">
+      <div class="stage-badge">階段 02 · 測試 · 5 分鐘</div>
+      <div class="stage-title">產生測試</div>
+      <div class="stage-desc">產生涵蓋正常路徑、邊緣案例和失敗情境的完整測試套件</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-header">
+        <span class="tp-icon">💬</span>
+        <span class="tp-label">TALKING POINT · #13</span>
+      </div>
+      <ul class="tp-list">
+        <li>Testing is a core part of any software delivery lifecycle — industry standards like CI/CD, DevSecOps, and agile all mandate that code is validated before it ships. We'll ask Bob to generate a full test suite covering happy paths, edge cases, and failure scenarios — no manual test writing required.</li>
+      </ul>
+    </div>
+
+    <div class="section-label">Prompts</div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="togglePrompt(this)">
+        <span class="prompt-label">2a · 產生測試</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="copy-btn" onclick="event.stopPropagation();copyPrompt('prompt0')">複製</button>
+          <span class="prompt-toggle">▼</span>
+        </div>
+      </div>
+      <div class="prompt-body" id="prompt0">Generate JUnit 5 integration tests for the payment API.
+Cover: successful authorization, declined card, capture after auth,
+refund after capture, invalid card number, duplicate refund attempt.
+Use MockMvc. Assert HTTP status codes and response body fields.
+Target 80% code coverage.
+
+Use Java 17. Generate tests for the payment-app-java17 directory.
+
+Generate a report with name PaymentApiIntegrationTestCoverageReport.md.</div>
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #14</span>
+      </div>
+      在編寫任何程式碼之前，Bob 將首先<strong>讀取現有的原始檔案</strong>以收集上下文 — 它需要了解控制器、模型和端點，然後才能編寫有意義的測試。<br><br>
+一旦有足夠的上下文，Bob 將建立一個<strong>待辦清單</strong>並逐項完成 — 檔案逐一建立並標記為完成。<br><br>
+<strong>如何處理報告：</strong>向觀眾介紹摘要 — 強調通過/失敗計數、涵蓋率百分比以及任何標記的邊緣案例。這是開發人員通常需要花費數小時手動產生的輸出類型。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #41</span>
+      </div>
+      您應該期望所有測試都通過 ✅ — 上次執行時，所有 18 個測試都通過了。成本：<strong>~0.17 bobcoins</strong>。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #42</span>
+      </div>
+      <strong>JaCoCo</strong>（Java Code Coverage）— 一個測量測試執行了多少程式碼的函式庫。它產生涵蓋率百分比報告。<strong>MockMvc</strong> — 一個 Spring 測試框架，讓您可以模擬對 REST 端點的 HTTP 請求，而無需啟動真實伺服器，使測試快速且隔離。
+    </div>
+
+    <div class="nav-buttons">
+      <a href="stage-1a.html" class="nav-btn">← 上一階段</a>
+      <a href="stage-2b.html" class="nav-btn">下一步：階段 2b →</a>
+    </div>
+  </div>
+
+  <script>
+    function togglePrompt(header) {
+      const body = header.nextElementSibling;
+      const toggle = header.querySelector('.prompt-toggle');
+      body.classList.toggle('visible');
+      toggle.classList.toggle('open');
+    }
+
+    function copyPrompt(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Prompt copied to clipboard!');
+      });
+    }
+
+    // Auto-open first prompt
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstBody = document.querySelector('.prompt-body');
+      const firstToggle = document.querySelector('.prompt-toggle');
+      if (firstBody) {
+        firstBody.classList.add('visible');
+        firstToggle.classList.add('open');
+      }
+    });
+  </script>
+</body>
+</html>

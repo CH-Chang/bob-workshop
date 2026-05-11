@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>階段 1 - Bob 建構應用程式 | IBM Bob SDLC 示範</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme-toggle.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fa;
+    --surface2: #e9ecef;
+    --border: #dee2e6;
+    --accent: #0066cc;
+    --accent2: #00a896;
+    --warn: #ff8c00;
+    --text: #212529;
+    --muted: #495057;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .meta span { color: #000000; }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .home-link:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  /* LAYOUT */
+  .main-layout {
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 51px;
+    height: calc(100vh - 51px);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .toc-list {
+    list-style: none;
+  }
+
+  .toc-item {
+    margin-bottom: 2px;
+  }
+
+  .toc-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .toc-link:hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .toc-link.active {
+    background: var(--surface2);
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 24px;
+  }
+
+  .toc-label {
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .toc-optional {
+    opacity: 0.6;
+    font-size: 11px;
+  }
+
+  /* CONTENT */
+  .container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    overflow-y: auto;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  }
+
+  .stage-header {
+    margin-bottom: 30px;
+  }
+
+  .stage-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .stage-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .stage-desc {
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  
+  .tp-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,102,204,0.2);
+  }
+
+  .tp-icon {
+    font-size: 16px;
+  }
+
+  .tp-label {
+    
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .talking-point {
+    background: linear-gradient(135deg, rgba(0,102,204,0.05), rgba(0,168,150,0.03));
+    border: 1px solid rgba(0,102,204,0.3);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .tp-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tp-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .tp-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 25px 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .prompt-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .prompt-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .prompt-body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #495057;
+    padding: 14px;
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.02);
+    display: none;
+  }
+
+  .prompt-body.visible {
+    display: block;
+  }
+
+  .prompt-toggle {
+    font-size: 10px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .prompt-toggle.open {
+    transform: rotate(180deg);
+  }
+
+  .copy-btn {
+    padding: 4px 10px;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent2);
+  }
+
+  
+  .note-header, .tip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,168,150,0.2);
+  }
+
+  .tip-header {
+    border-bottom-color: rgba(255,140,0,0.2);
+  }
+
+  .note-icon, .tip-icon {
+    font-size: 16px;
+  }
+
+  .note-label, .tip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .note-label {
+    color: var(--accent2);
+  }
+
+  .tip-label {
+    color: var(--warn);
+  }
+
+  .stage-note {
+    background: rgba(0,168,150,0.08);
+    border: 1px solid rgba(0,168,150,0.3);
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 15px 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .stage-tip {
+    background: rgba(255,140,0,0.08);
+    border: 1px solid rgba(255,140,0,0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 15px 0;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .output-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .output-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .output-icon {
+    color: #000000;
+    flex-shrink: 0;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    padding: 10px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .nav-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      IBM BOB — SDLC DEMO FLOW
+    </div>
+    <div class="meta">
+      <span>階段 1 / 共 8 階段</span>
+      <a href="../index.html" class="home-link">↑ 首頁</a>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">目錄</div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <a href="stage-0.html" class="toc-link">
+            <span class="toc-num">00</span>
+            <span class="toc-label">示範簡介</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1.html" class="toc-link active">
+            <span class="toc-num">01</span>
+            <span class="toc-label">Bob 建構應用程式</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1a.html" class="toc-link toc-optional">
+            <span class="toc-num">01a</span>
+            <span class="toc-label">Java 現代化</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2.html" class="toc-link">
+            <span class="toc-num">02</span>
+            <span class="toc-label">產生測試</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2b.html" class="toc-link">
+            <span class="toc-num">02b</span>
+            <span class="toc-label">安全掃描</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-3.html" class="toc-link">
+            <span class="toc-num">03</span>
+            <span class="toc-label">基礎設施即程式碼</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4.html" class="toc-link">
+            <span class="toc-num">04</span>
+            <span class="toc-label">部署至 OpenShift</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4b.html" class="toc-link">
+            <span class="toc-num">04b</span>
+            <span class="toc-label">CI/CD 流水線</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-5.html" class="toc-link">
+            <span class="toc-num">05</span>
+            <span class="toc-label">Day-2 SRE 維運</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="container">
+      <div class="stage-header">
+      <div class="stage-badge">階段 01 · 建構 · 12 分鐘</div>
+      <div class="stage-title">Bob 建構應用程式</div>
+      <div class="stage-desc">一個提示 → 完整可部署的支付應用程式</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-header">
+        <span class="tp-icon">💬</span>
+        <span class="tp-label">談話要點 · #4</span>
+      </div>
+      <ul class="tp-list">
+        <li>我們正在建構一個模擬信用卡支付應用程式 — 後端、前端，全部在一個提示中完成。</li>
+        <li>注意規格有多詳細：端點、卡號、回應代碼、UI 狀態。這就是<strong>規格驅動開發</strong> — 預先將重要的技術細節寫在紙上，讓 Bob 擁有交付預期結果所需的一切。</li>
+        <li>無需來回溝通，無需不一致的交付成果。</li>
+      </ul>
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #6</span>
+      </div>
+      在此迭代中，我們要求使用 Java 11，因此如果想展示 Java 現代化用例，可以新增一個階段。否則您可以要求使用較新版本，如 Java 17+。
+    </div>
+
+    <div class="section-label">提示</div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="togglePrompt(this)">
+        <span class="prompt-label">建構提示</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="copy-btn" onclick="event.stopPropagation();copyPrompt()">複製</button>
+          <span class="prompt-toggle">▼</span>
+        </div>
+      </div>
+      <div class="prompt-body" id="promptText">Build a mock credit card payment processing application with:
+
+Backend (Java 11, Spring Boot):
+- REST API endpoints:
+  - POST /api/payments/authorize (authorize a card transaction)
+  - POST /api/payments/capture (capture an authorized transaction)
+  - POST /api/payments/refund (refund a captured transaction)
+  - GET /api/payments/{id} (get transaction status)
+  - GET /api/payments/history (list recent transactions)
+  - POST /admin/cache/clear (clear local cache)
+  - GET /actuator/health (readiness probe)
+  - GET /actuator/prometheus (metrics endpoint)
+
+- Use in-memory H2 database (no external DB needed)
+- Local Caffeine cache for transaction lookups
+- Simulate realistic processing delays (200-500ms)
+- Simulate random declines (10% of transactions)
+- Return realistic response codes (approved, declined, insufficient funds, expired card)
+- Use the test card numbers:
+  - Visa: 4263970000005262
+  - MasterCard: 5425230000004415
+  - Amex: 374101000000608
+
+Frontend (React):
+- Payment form: card number, expiry, CVV, amount
+- Transaction history dashboard showing recent payments
+- Status badges: Authorized (yellow), Captured (green), Declined (red), Refunded (gray)
+- Simple and clean — this is for a demo, not production
+
+Make it run with a single command: mvn spring-boot:run
+
+Do not run the application. I will run it myself.
+
+Also generate:
+- Dockerfile — multi-stage build, distroless base, non-root user
+- k8s/deployment.yaml — OpenShift deployment manifest with placeholder values:
+  - Image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/payment-app:${IMAGE_TAG}
+  - Namespace: ${NAMESPACE}
+  - 3 replicas, resource limits, readiness/liveness probes
+  - PodDisruptionBudget (max 1 unavailable)
+  - Service and Route
+  Use placeholder values only — real cluster values will be injected at deploy time.
+
+Use the following folder structure:
+```
+payment-app/
+├── src/
+│   └── main/
+│       ├── java/com/demo/payment/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── model/
+│       │   └── config/
+│       └── resources/
+│           ├── static/          ← React frontend
+│           └── application.properties
+├── pom.xml
+├── Dockerfile
+├── k8s/
+│   └── deployment.yaml   ← OpenShift manifest with placeholder values
+└── README.md
+```
+
+---
+
+## Lessons Learnt
+
+1. **`GenerationType.UUID` requires JPA 3.x** — Spring Boot 2.7 ships with JPA 2.x (Hibernate 5), which does not support `GenerationType.UUID`. Use `UUID.randomUUID()` in a `@PrePersist` hook instead, or upgrade to Spring Boot 3.x.
+
+2. **Lombok requires annotation processing to be active at compile time** — When Lombok is on the classpath but the compiler's annotation processor isn't wired correctly (e.g., missing `-proc:full` flag or IDE misconfiguration), all generated methods (`getters`, `setters`, `builder`, `log`) are invisible to `javac` and produce "cannot find symbol" errors. For a zero-friction demo, replacing Lombok with explicit getters/setters and a hand-written builder is more portable and avoids the dependency entirely.</div>
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #35</span>
+      </div>
+      此建構的成本約為 <strong>~0.31 bobcoins</strong>。
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-header">
+        <span class="tp-icon">💬</span>
+        <span class="tp-label">談話要點 · #5</span>
+      </div>
+      當 Bob 產生時 — 觀察它首先產生詳細的待辦清單，在撰寫任何一行程式碼之前分解整個建構計劃。根據您的<strong>允許動作</strong>設定，Bob 可能會暫停並在執行某些步驟之前徵求您的批准 — 例如建立檔案或執行命令。這讓您完全控制 Bob 做什麼以及何時做。<br><br>當它完成建構應用程式時，Bob 將產生一個 <code>README.md</code>，詳細說明所有已實作的內容。它還會提供清晰的交接訊息，讓您確切知道接下來該做什麼。<br><br>請注意，Bob 不僅建構了應用程式 — 它還在 <code>k8s/deployment.yaml</code> 中產生了 <strong>Dockerfile</strong> 和 <strong>OpenShift 部署清單</strong>。一個提示，您就擁有了在生產環境中容器化和部署應用程式所需的一切。
+
+    <div class="section-label">Bob 產生的內容</div>
+    <div class="output-list">
+      <div class="output-item"><span class="output-icon">→</span>src/main/java/... — Spring Boot REST API（控制器、服務、模型）</div>
+      <div class="output-item"><span class="output-icon">→</span>src/main/resources/static/ — React 前端（支付表單 + 歷史儀表板）</div>
+      <div class="output-item"><span class="output-icon">→</span>pom.xml — Maven 相依性（Spring Boot、H2、Caffeine、Actuator）</div>
+      <div class="output-item"><span class="output-icon">→</span>application.properties — H2 設定、快取設定、actuator 曝露</div>
+      <div class="output-item"><span class="output-icon">→</span>Dockerfile — 多階段建構、distroless 基礎、非 root 使用者</div>
+      <div class="output-item"><span class="output-icon">→</span>k8s/deployment.yaml — 帶有佔位符值的 OpenShift 清單（映像、命名空間、註冊表）</div>
+      <div class="output-item"><span class="output-icon">→</span>README.md — 如何建構和執行</div>
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #7</span>
+      </div>
+      在終端機中執行：<br><br><code>cd payment-app</code><br><code>mvn spring-boot:run</code><br><br>這將在 <code>localhost:8080</code> 上啟動應用程式。啟動後，開啟瀏覽器並展示 UI 已上線。<br><br><strong>如何填寫表單：</strong><br>
+• <strong>卡號：</strong>使用其中一張測試卡 — 例如 Visa <code>4263970000005262</code><br>
+• <strong>到期日：</strong>任何未來日期，例如 <code>12/26</code><br>
+• <strong>CVV：</strong>任何 3 位數字，例如 <code>123</code><br>
+• <strong>金額：</strong>任何值，例如 <code>99.99</code><br><br>
+點擊 <strong>Authorize</strong> 並觀察交易出現在歷史儀表板中。預期結果是以下之一：<strong>Authorized</strong>（黃色）、<strong>Captured</strong>（綠色）、<strong>Declined</strong>（紅色）或 <strong>Refunded</strong>（灰色）— 約有 10% 的機會被拒絕以模擬真實世界的行為。<br><br>這確認了 UI 正在與後端通訊 — Bob 不僅產生了程式碼，它產生了一個<em>可運作的</em>應用程式。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #36</span>
+      </div>
+      如果您在啟動應用程式時遇到任何問題，只需要求 Bob 進行故障排除。在終端機中選擇錯誤訊息，右鍵點擊 → <strong>IBM Bob → Add terminal content to context</strong> 或 <strong>Fix this command</strong> — Bob 將立即診斷並修復問題。這本身就是一個很好的現場示範時刻。
+    </div>
+
+    <div class="nav-buttons">
+        <a href="stage-0.html" class="nav-btn">← 上一階段</a>
+        <a href="stage-1a.html" class="nav-btn">下一步：階段 1a（可選）→</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePrompt(header) {
+      const body = header.nextElementSibling;
+      const toggle = header.querySelector('.prompt-toggle');
+      body.classList.toggle('visible');
+      toggle.classList.toggle('open');
+    }
+
+    function copyPrompt() {
+      const text = document.getElementById('promptText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Prompt copied to clipboard!');
+      });
+    }
+
+    // Auto-open first prompt
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstBody = document.querySelector('.prompt-body');
+      const firstToggle = document.querySelector('.prompt-toggle');
+      if (firstBody) {
+        firstBody.classList.add('visible');
+        firstToggle.classList.add('open');
+      }
+    });
+  </script>
+</body>
+</html>

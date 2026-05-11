@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>階段 1a - Java 現代化 | IBM Bob SDLC 示範</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<script src="../assets/theme-toggle.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fa;
+    --surface2: #e9ecef;
+    --border: #dee2e6;
+    --accent: #0066cc;
+    --accent2: #00a896;
+    --warn: #ff8c00;
+    --text: #212529;
+    --muted: #495057;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .meta span { color: #000000; }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .home-link:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  
+  /* LAYOUT */
+  .main-layout {
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 51px;
+    height: calc(100vh - 51px);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .toc-list {
+    list-style: none;
+  }
+
+  .toc-item {
+    margin-bottom: 2px;
+  }
+
+  .toc-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .toc-link:hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .toc-link.active {
+    background: var(--surface2);
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 24px;
+  }
+
+  .toc-label {
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .toc-optional {
+    opacity: 0.6;
+    font-size: 11px;
+  }
+
+  /* CONTENT */
+  .container {flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    overflow-y: auto;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  }
+
+  /* Original container styles below */
+  .old-container-placeholder {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1;
+  }
+
+  .stage-header {
+    margin-bottom: 30px;
+  }
+
+  .stage-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .stage-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .stage-desc {
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  
+  .tp-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,102,204,0.2);
+  }
+
+  .tp-icon {
+    font-size: 16px;
+  }
+
+  .tp-label {
+    
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .talking-point {
+    background: linear-gradient(135deg, rgba(0,102,204,0.05), rgba(0,168,150,0.03));
+    border: 1px solid rgba(0,102,204,0.3);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .tp-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tp-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .tp-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 25px 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .prompt-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .prompt-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .prompt-body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #495057;
+    padding: 14px;
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.02);
+    display: none;
+  }
+
+  .prompt-body.visible {
+    display: block;
+  }
+
+  .prompt-toggle {
+    font-size: 10px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .prompt-toggle.open {
+    transform: rotate(180deg);
+  }
+
+  .copy-btn {
+    padding: 4px 10px;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent2);
+  }
+
+  
+  .note-header, .tip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,168,150,0.2);
+  }
+
+  .tip-header {
+    border-bottom-color: rgba(255,140,0,0.2);
+  }
+
+  .note-icon, .tip-icon {
+    font-size: 16px;
+  }
+
+  .note-label, .tip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .note-label {
+    color: var(--accent2);
+  }
+
+  .tip-label {
+    color: var(--warn);
+  }
+
+  .stage-note {
+    background: rgba(0,168,150,0.08);
+    border: 1px solid rgba(0,168,150,0.3);
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 15px 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .stage-tip {
+    background: rgba(255,140,0,0.08);
+    border: 1px solid rgba(255,140,0,0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 15px 0;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .output-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .output-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .output-icon {
+    color: #000000;
+    flex-shrink: 0;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    padding: 10px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .nav-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .optional-badge {
+    opacity: 0.7;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      IBM BOB — SDLC DEMO FLOW
+    </div>
+    <div class="meta">
+      <span>階段 1a（可選）</span>
+      <a href="../index.html" class="home-link">↑ 首頁</a>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">目錄</div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <a href="stage-0.html" class="toc-link">
+            <span class="toc-num">00</span>
+            <span class="toc-label">示範簡介</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1.html" class="toc-link">
+            <span class="toc-num">01</span>
+            <span class="toc-label">Bob 建構應用程式</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-1a.html" class="toc-link toc-optional active">
+            <span class="toc-num">01a</span>
+            <span class="toc-label">Java 現代化</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2.html" class="toc-link">
+            <span class="toc-num">02</span>
+            <span class="toc-label">產生測試</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-2b.html" class="toc-link">
+            <span class="toc-num">02b</span>
+            <span class="toc-label">安全掃描</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-3.html" class="toc-link">
+            <span class="toc-num">03</span>
+            <span class="toc-label">基礎設施即程式碼</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4.html" class="toc-link">
+            <span class="toc-num">04</span>
+            <span class="toc-label">部署至 OpenShift</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-4b.html" class="toc-link">
+            <span class="toc-num">04b</span>
+            <span class="toc-label">CI/CD 流水線</span>
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="stage-5.html" class="toc-link">
+            <span class="toc-num">05</span>
+            <span class="toc-label">Day-2 SRE 維運</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="container">
+    <div class="stage-header">
+      <div class="stage-badge">階段 01a · 可選</div>
+      <div class="stage-title">Java 現代化</div>
+      <div class="stage-desc">將應用程式從 Java 11 升級到 Java 17 — 展示 Bob 的現代化能力</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-header">
+        <span class="tp-icon">💬</span>
+        <span class="tp-label">談話要點 · #8</span>
+      </div>
+      <ul class="tp-list">
+        <li>我們在 Java 11 上建構應用程式 — 這是有意為之的。這讓我們能夠展示 Bob 最引人注目的企業用例之一：<strong>程式碼現代化</strong>。</li>
+        <li>許多組織在數百個服務中執行舊版 Java 版本。Bob 可以分析程式碼庫，識別需要變更的內容，並產生結構化的升級計劃 — 在觸及任何一行程式碼之前。</li>
+      </ul>
+    </div>
+
+    <div class="stage-note optional-badge">
+      這是一個可選階段。當觀眾有舊版 Java 現代化挑戰或當您想展示 Bob 規劃大規模程式碼遷移的能力時，請包含此階段。
+    </div>
+
+    <div class="section-label">提示</div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="togglePrompt(this)">
+        <span class="prompt-label">1a · Java 現代化行動計劃</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="copy-btn" onclick="event.stopPropagation();copyPrompt('prompt0')">複製</button>
+          <span class="prompt-toggle">▼</span>
+        </div>
+      </div>
+      <div class="prompt-body" id="prompt0">Analyze the payment application and create a detailed action plan to modernize it from Java 11 to Java 17.
+
+The plan should include:
+1. Summary of changes required (dependencies, APIs, syntax, config)
+2. List of deprecated or removed APIs that need replacing
+3. New Java 17 features that can improve the codebase (records, sealed classes, text blocks, pattern matching)
+4. Updated pom.xml changes required (Java version, Spring Boot compatibility)
+5. Estimated effort and risk for each change
+6. Recommended order of changes to minimize risk
+
+Do not make any code changes yet. Produce the plan as: JavaModernizationPlan.md</div>
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #10</span>
+      </div>
+      Bob 將產生一個結構化的 <code>JavaModernizationPlan.md</code> — 向觀眾介紹細節：需要哪些變更、可以採用哪些新的 Java 17 功能，以及建議的順序。這是通常需要資深開發人員花費數天時間手動產生的分析類型。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #37</span>
+      </div>
+      此階段是可選的 — 僅在觀眾有 Java 現代化痛點或時間允許時包含它。它與要求 Bob <strong>執行</strong>計劃的後續提示配合得很好。<br><br>💡 成本：<strong>~0.07 bobcoins</strong>。
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="togglePrompt(this)">
+        <span class="prompt-label">1b · 執行現代化</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="copy-btn" onclick="event.stopPropagation();copyPrompt('prompt1')">複製</button>
+          <span class="prompt-toggle">▼</span>
+        </div>
+      </div>
+      <div class="prompt-body" id="prompt1">Execute the JavaModernizationPlan.md — modernize the payment application from Java 11 to Java 17.
+
+Apply all changes identified in the plan:
+1. Update pom.xml — Java version to 17, Spring Boot and dependency versions
+2. Replace any deprecated or removed APIs with Java 17 equivalents
+3. Apply Java 17 features where they improve the code:
+   - Records for immutable model classes
+   - Text blocks for multi-line strings
+   - Pattern matching for instanceof checks
+   - Sealed classes where appropriate
+4. Remove Lombok if present — replace with Java records or explicit methods
+5. Verify the application still compiles and runs with: mvn spring-boot:run
+
+Output the modernized application in a new folder alongside the original:
+
+```
+payment-app/          ← original Java 11 (do not modify)
+payment-app-java17/   ← modernized Java 17
+├── src/
+│   └── main/
+│       ├── java/com/demo/payment/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── model/        ← records replace verbose POJOs
+│       │   └── config/
+│       └── resources/
+│           ├── static/
+│           └── application.properties
+├── pom.xml           ← updated to Java 17 + Spring Boot 3.x
+├── Dockerfile
+└── README.md
+```
+
+Do not run the application. I will verify it myself.</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-header">
+        <span class="tp-icon">💬</span>
+        <span class="tp-label">談話要點 · #9</span>
+      </div>
+      現在我們將要求 Bob 執行計劃。觀察它系統性地處理程式碼庫 — 更新相依性、替換已棄用的 API，並採用 Java 17 功能，如 records 和 text blocks。
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #11</span>
+      </div>
+      當 Bob 進行時，指出特定的 Java 17 改進 — <strong>records</strong> 替換冗長的模型類別是最直觀的。之前：50 行樣板程式碼。之後：3 行。這是與房間裡任何 Java 開發人員產生共鳴的變更類型。<br><br>Bob 也會在完成時總結變更。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #38</span>
+      </div>
+      這是談論 Bob 在規模上的價值的好時機 — 一個服務在幾分鐘內現代化。現在想像在 200 個服務中執行此操作。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #39</span>
+      </div>
+      成本：<strong>~0.17 bobcoins</strong>。
+    </div>
+
+    <div class="stage-tip">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">提示 · #40</span>
+      </div>
+      在執行現代化應用程式之前，請確保您已安裝 <strong>Java 17+</strong> — 否則您可能會遇到編譯或執行時錯誤。Java 17 或更高版本都可以（例如 Java 21、Java 25）。如果您確實遇到問題，請與 Bob 合作解決。
+    </div>
+
+    <div class="section-label">Bob 產生的內容</div>
+    <div class="output-list">
+      <div class="output-item"><span class="output-icon">→</span>payment-app-java17/ — 現代化專案資料夾</div>
+      <div class="output-item"><span class="output-icon">→</span>更新的 pom.xml — Java 17 + Spring Boot 3.x</div>
+      <div class="output-item"><span class="output-icon">→</span>現代化原始碼 — 應用了 records、text blocks、pattern matching</div>
+    </div>
+
+    <div class="stage-note">
+      <div class="note-header">
+        <span class="note-icon">📝</span>
+        <span class="note-label">簡報者備註 · #12</span>
+      </div>
+      <strong>可選：</strong>啟動現代化應用程式以驗證其運作。<br><br>
+<code>cd payment-app-java17</code><br>
+<code>mvn spring-boot:run</code><br><br>
+⚠️ <strong>請確保先停止先前執行的伺服器</strong> — 否則您將在 <code>localhost:8080</code> 上遇到連接埠衝突。在執行原始應用程式的終端機中，按 <code>Ctrl+C</code> 停止它，然後再啟動 Java 17 版本。
+    </div>
+
+    <div class="nav-buttons">
+      <a href="stage-1.html" class="nav-btn">← 上一階段</a>
+      <a href="stage-2.html" class="nav-btn">下一步：階段 2 →</a>
+    </div>
+  </div>
+
+  <script>
+    function togglePrompt(header) {
+      const body = header.nextElementSibling;
+      const toggle = header.querySelector('.prompt-toggle');
+      body.classList.toggle('visible');
+      toggle.classList.toggle('open');
+    }
+
+    function copyPrompt(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Prompt copied to clipboard!');
+      });
+    }
+
+    // Auto-open first prompt
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstBody = document.querySelector('.prompt-body');
+      const firstToggle = document.querySelector('.prompt-toggle');
+      if (firstBody) {
+        firstBody.classList.add('visible');
+        firstToggle.classList.add('open');
+      }
+    });
+  </script>
+</body>
+</html>
