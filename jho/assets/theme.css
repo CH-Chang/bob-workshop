@@ -1,0 +1,314 @@
+/* IBM Bob Workshop - 共用主題樣式 */
+:root {
+  --bg: #ffffff;
+  --surface: #f8f9fa;
+  --surface2: #e9ecef;
+  --border: #dee2e6;
+  --accent: #0066cc;
+  --accent2: #00a896;
+  --warn: #ff8c00;
+  --text: #212529;
+  --muted: #495057;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  padding: 6px 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.nav-btn:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  flex: 1;
+}
+
+.stage-header {
+  text-align: center;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.stage-header h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.stage-header p {
+  font-size: 15px;
+  opacity: 0.95;
+}
+
+.section {
+  background: var(--surface);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+
+.section h2 {
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.section h3 {
+  color: var(--text);
+  margin: 20px 0 12px 0;
+  font-size: 16px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.info-box {
+  background: rgba(0, 102, 204, 0.08);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+  margin: 16px 0;
+}
+
+.warning-box {
+  background: rgba(255, 140, 0, 0.08);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--warn);
+  margin: 16px 0;
+}
+
+.prompt-container {
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.prompt-header {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: white;
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prompt-header:hover {
+  opacity: 0.95;
+}
+
+.prompt-toggle {
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.prompt-toggle.open {
+  transform: rotate(180deg);
+}
+
+.prompt-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.prompt-body.visible {
+  max-height: 2000px;
+}
+
+.prompt-content {
+  padding: 20px;
+}
+
+.prompt-text {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
+}
+
+.copy-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: #0052a3;
+  transform: translateY(-1px);
+}
+
+.steps {
+  counter-reset: step;
+}
+
+.step {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 60px;
+}
+
+.step::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: var(--accent);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.step h3 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+code {
+  background: #f8f9fa;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #e83e8c;
+}
+
+pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+ul, ol {
+  margin-left: 24px;
+  margin-top: 8px;
+}
+
+li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .stage-header h1 {
+    font-size: 22px;
+  }
+  
+  .nav {
+    flex-direction: column;
+  }
+}
+
+/* Made with Bob */

@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: krtc-station-system
+  
+  # H2 資料庫設定
+  datasource:
+    url: jdbc:h2:mem:krtc
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  # H2 Console 設定
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+  
+  # JPA 設定
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  
+  # SQL 初始化
+  sql:
+    init:
+      mode: always
+
+# Server 設定
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Logging 設定
+logging:
+  level:
+    com.krtc: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+
+# Made with Bob

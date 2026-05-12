@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM Bob Workshop - 信用卡交易監控系統挑戰</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/workshop-theme.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>💳 信用卡交易監控系統</h1>
+      <p class="subtitle">IBM Bob Workshop 挑戰</p>
+      <p class="company"></p>
+      <div class="challenge-badge">⏱️ 時長：2 小時 | 難度：⭐⭐⭐ 中等</div>
+    </header>
+
+    <!-- 挑戰概述 -->
+    <div class="section">
+      <h2>🎯 挑戰概述</h2>
+      <div class="challenge-box">
+        <h3>你的任務</h3>
+        <p>你是聯邦網通的資深開發工程師，公司需要為現有的信用卡交易系統新增<strong>即時交易監控功能</strong>，以識別異常交易模式並提供風險預警。</p>
+        <p>你將使用 <strong>IBM Bob</strong> 作為 AI 開發助手，從現有的 Sample Code 基礎上，快速實作這個關鍵的安全功能。</p>
+      </div>
+
+      <div class="warning-box">
+        <h4>⚠️ 重要提醒</h4>
+        <p>這是一個<strong>開放式挑戰</strong>，我們不會提供詳細的實作步驟。你需要：</p>
+        <ul>
+          <li>自行分析需求並設計解決方案</li>
+          <li>善用 IBM Bob 的各種功能來加速開發</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 學習目標 -->
+    <div class="section">
+      <h2>🎓 學習目標</h2>
+      <p style="margin-bottom: 20px;">完成本挑戰後，你將能夠：</p>
+      <div class="objectives-list">
+        <ul>
+          <li>使用 Bob 從現有程式碼快速新增功能</li>
+          <li>建立自訂 Slash Command 提升開發效率</li>
+          <li>撰寫專案 Rules 確保程式碼品質</li>
+          <li>建立 AGENTS.md 指導 AI 助手</li>
+          <li>建立 SKILL.md 記錄技術知識</li>
+          <li>實作金融系統的安全最佳實踐</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 功能需求 -->
+    <div class="section">
+      <h2>📋 功能需求</h2>
+      <p style="margin-bottom: 20px;">你需要實作以下 2 個核心功能模組：</p>
+      
+      <div class="requirements-grid">
+        <div class="requirement-card">
+          <h4>🚨 模組 1：異常偵測引擎</h4>
+          <p style="margin-bottom: 12px; color: var(--muted); font-size: 0.95rem;">
+            <strong>功能說明</strong>：針對現有交易資料進行異常模式偵測
+          </p>
+          <ul>
+            <li>✅ 高額交易偵測：單筆金額 > 50,000 元</li>
+            <li>✅ 頻繁交易偵測：1 小時內同一卡片 > 5 筆交易</li>
+            <li>✅ 重複交易偵測：5 分鐘內相同卡片、商店、金額</li>
+          </ul>
+          <div style="margin-top: 16px; padding: 12px; background: rgba(0, 102, 204, 0.05); border-radius: 6px; border-left: 3px solid var(--accent);">
+            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>實作方式</strong>：</p>
+            <ul style="font-size: 0.9rem; color: var(--muted);">
+              <li>使用現有 <code>TransactionService</code> 查詢方法</li>
+              <li>分析交易資料（data.sql 或新增的交易）</li>
+              <li>產生 <code>TransactionAlert</code> 警示記錄</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="requirement-card">
+          <h4>📊 模組 2：警示管理系統</h4>
+          <p style="margin-bottom: 12px; color: var(--muted); font-size: 0.95rem;">
+            <strong>功能說明</strong>：管理偵測到的異常交易警示
+          </p>
+          <ul>
+            <li>🔍 警示查詢：依狀態、風險等級、時間範圍篩選</li>
+            <li>📈 統計報表：警示數量、風險分布、處理狀態</li>
+            <li>✅ 警示處理：標記為已處理/誤報</li>
+          </ul>
+          <div style="margin-top: 16px; padding: 12px; background: rgba(0, 168, 150, 0.05); border-radius: 6px; border-left: 3px solid var(--accent2);">
+            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>實作方式</strong>：</p>
+            <ul style="font-size: 0.9rem; color: var(--muted);">
+              <li>建立 <code>AlertRepository</code> 和 <code>AlertService</code></li>
+              <li>實作 RESTful API 端點</li>
+              <li>提供查詢、統計、處理功能</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 現有 API -->
+    <div class="section">
+      <h2>✅ 現有 API 功能</h2>
+      <p style="margin-bottom: 20px;">Sample Code 已提供以下交易查詢 API：</p>
+      
+      <div class="evaluation-table">
+        <table>
+          <thead>
+            <tr>
+              <th>HTTP 方法</th>
+              <th>端點</th>
+              <th>功能說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions</td>
+              <td>查詢所有交易</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions/{id}</td>
+              <td>查詢單筆交易</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions/card/{cardId}</td>
+              <td>查詢指定卡片的交易</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions/recent?hours=24</td>
+              <td>查詢最近 N 小時交易</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions/high-amount?threshold=50000</td>
+              <td>查詢高額交易</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/transactions/statistics</td>
+              <td>交易統計資料</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 待實作 API -->
+    <div class="section">
+      <h2>🔌 待實作 API</h2>
+      <p style="margin-bottom: 20px;">你需要實作以下警示管理 API：</p>
+      
+      <div class="evaluation-table">
+        <table>
+          <thead>
+            <tr>
+              <th>HTTP 方法</th>
+              <th>端點</th>
+              <th>功能說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>POST</strong></td>
+              <td>/api/transactions</td>
+              <td>新增交易（方案 B 需要）</td>
+            </tr>
+            <tr>
+              <td><strong>POST</strong></td>
+              <td>/api/alerts/detect</td>
+              <td>手動觸發異常偵測</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/alerts</td>
+              <td>查詢警示列表</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/alerts/high-risk</td>
+              <td>查詢高風險警示</td>
+            </tr>
+            <tr>
+              <td><strong>GET</strong></td>
+              <td>/api/alerts/statistics</td>
+              <td>取得統計報表</td>
+            </tr>
+            <tr>
+              <td><strong>PATCH</strong></td>
+              <td>/api/alerts/{id}/resolve</td>
+              <td>處理並結案警示</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warning-box" style="margin-top: 24px;">
+        <h4>💡 實作方案選擇</h4>
+        <p><strong>方案 A：手動偵測（簡化版）</strong></p>
+        <ul style="margin-left: 24px; margin-bottom: 16px;">
+          <li>透過 <code>POST /api/alerts/detect</code> 手動觸發偵測</li>
+          <li>分析 data.sql 中的現有交易資料</li>
+          <li>適合 Workshop 快速展示</li>
+        </ul>
+        
+        <p><strong>方案 B：自動偵測（完整版）⭐ 推薦</strong></p>
+        <ul style="margin-left: 24px;">
+          <li>實作 <code>POST /api/transactions</code> 新增交易 API</li>
+          <li>每次新增交易時自動觸發異常偵測</li>
+          <li>更貼近真實業務場景</li>
+          <li>可透過 API 動態新增測試資料</li>
+        </ul>
+        
+        <p style="margin-top: 16px;"><strong>建議</strong>：先實作方案 A 驗證偵測邏輯，再擴充方案 B 完善功能</p>
+      </div>
+    </div>
+
+    <!-- Bob 功能產出 -->
+    <div class="section">
+      <h2>🤖 產出要求</h2>
+      <p style="margin-bottom: 20px;">除了功能實作，你還需要建立以下 Bob 相關文件：</p>
+      
+      <div class="deliverables">
+        <h4>必要產出</h4>
+        <ul>
+          <li><strong>自訂 Slash Command</strong>：建立 <code>/security-scan</code> 指令
+            <br><span style="font-size: 0.9rem; color: var(--muted);">用途：執行應用程式安全掃描，檢查 SQL Injection、輸入驗證、敏感資料處理等安全問題</span>
+          </li>
+          <li><strong>編碼規範</strong>：撰寫 <code>.bob/rules/coding-standards.md</code></li>
+          <li><strong>安全規範</strong>：撰寫 <code>.bob/rules/security-rules.md</code></li>
+          <li><strong>AI 指引</strong>：建立 <code>.bob/AGENTS.md</code></li>
+          <li><strong>技術知識庫</strong>：建立 <code>.bob/SKILL.md</code>
+            <br><span style="font-size: 0.9rem; color: var(--muted);">主題：金融系統開發最佳實踐（BigDecimal 使用、卡號遮罩、時間窗口計算）</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="success-box">
+        <h4>💡 提示</h4>
+        <p>這些文件是幫助你更有效使用 Bob 的關鍵工具。Slash Command 可以讓 Bob 執行特定的分析任務，SKILL.md 則記錄專案的技術知識供 Bob 參考。</p>
+      </div>
+    </div>
+
+    <!-- 啟動應用程式 -->
+    <div class="section">
+      <h2>🚀 啟動應用程式</h2>
+      <p style="margin-bottom: 20px;">按照以下步驟啟動 Spring Boot 應用程式：</p>
+      
+      <div class="challenge-box">
+        <h3>步驟 1：進入專案目錄</h3>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">cd topics/transaction-monitor</pre>
+        
+        <h3 style="margin-top: 24px;">步驟 2：啟動應用程式</h3>
+        <p style="margin-bottom: 12px;">選擇以下任一方式：</p>
+        
+        <p style="margin-top: 16px;"><strong>方式 A：使用 Maven Wrapper（推薦）</strong></p>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">./mvnw spring-boot:run</pre>
+        
+        <p style="margin-top: 16px;"><strong>方式 B：使用已安裝的 Maven</strong></p>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">mvn spring-boot:run</pre>
+        
+        <h3 style="margin-top: 24px;">步驟 3：驗證啟動成功</h3>
+        <p style="margin-bottom: 12px;">看到以下訊息表示啟動成功：</p>
+        <pre style="background: #2d2d2d; color: #50fa7b; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">Started TransactionMonitorApplication in X.XXX seconds</pre>
+        
+        <h3 style="margin-top: 24px;">步驟 4：存取應用程式</h3>
+        <ul style="margin-left: 24px; margin-top: 12px;">
+          <li><strong>Web UI</strong>: <a href="http://localhost:8080" target="_blank" style="color: var(--accent);">http://localhost:8080</a></li>
+          <li><strong>H2 資料庫控制台</strong>: <a href="http://localhost:8080/h2-console" target="_blank" style="color: var(--accent);">http://localhost:8080/h2-console</a>
+            <ul style="margin-left: 24px; margin-top: 8px; font-size: 0.9rem; color: var(--muted);">
+              <li>JDBC URL: <code>jdbc:h2:mem:uitc_db</code></li>
+              <li>Username: <code>sa</code></li>
+              <li>Password: (留空)</li>
+            </ul>
+          </li>
+          <li><strong>API 文件</strong>: <a href="http://localhost:8080/swagger-ui.html" target="_blank" style="color: var(--accent);">http://localhost:8080/swagger-ui.html</a></li>
+        </ul>
+      </div>
+      
+      <div class="warning-box" style="margin-top: 24px;">
+        <h4>⚠️ 常見問題</h4>
+        <p><strong>Q: Port 8080 已被佔用？</strong></p>
+        <p style="margin-left: 24px; margin-bottom: 12px;">A: 修改 <code>src/main/resources/application.yml</code> 中的 <code>server.port</code></p>
+        
+        <p><strong>Q: Maven 下載依賴很慢？</strong></p>
+        <p style="margin-left: 24px; margin-bottom: 12px;">A: 設定 Maven 使用國內鏡像源</p>
+        
+        <p><strong>Q: 如何停止應用程式？</strong></p>
+        <p style="margin-left: 24px;">A: 在終端機按 <code>Ctrl + C</code></p>
+      </div>
+    </div>
+
+    <!-- 時間分配 -->
+    <div class="section">
+      <h2>⏱️ 建議時間分配</h2>
+      <div class="time-allocation">
+        <div class="time-block">
+          <div class="time">15分</div>
+          <div class="label">環境設定<br>需求分析</div>
+        </div>
+        <div class="time-block">
+          <div class="time">25分</div>
+          <div class="label">實作 Entity<br>Repository</div>
+        </div>
+        <div class="time-block">
+          <div class="time">30分</div>
+          <div class="label">實作偵測規則<br>Service 層</div>
+        </div>
+        <div class="time-block">
+          <div class="time">30分</div>
+          <div class="label">Bob 進階功能<br>文件建立</div>
+        </div>
+        <div class="time-block">
+          <div class="time">20分</div>
+          <div class="label">測試與審查<br>最終檢查</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 完成檢查清單 -->
+    <div class="section">
+      <h2>✅ 完成檢查清單</h2>
+      <div class="evaluation-table">
+        <table>
+          <thead>
+            <tr>
+              <th>檢查項目</th>
+              <th>檢查重點</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>功能完整性</strong></td>
+              <td>
+                • TransactionAlert Entity 正確實作<br>
+                • 3 種偵測規則正確運作<br>
+                • API 端點正常運作<br>
+                • 測試覆蓋充足
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Bob 功能應用</strong></td>
+              <td>
+                • 自訂 Slash Command 可用<br>
+                • Rules 完整且實用<br>
+                • AGENTS.md 清晰明確<br>
+                • SKILL.md 內容豐富
+              </td>
+            </tr>
+            <tr>
+              <td><strong>程式碼品質</strong></td>
+              <td>
+                • 符合編碼規範<br>
+                • 符合安全規範<br>
+                • 適當的錯誤處理<br>
+                • 良好的程式碼結構
+              </td>
+            </tr>
+            <tr>
+              <td><strong>文件與測試</strong></td>
+              <td>
+                • API 文件完整<br>
+                • 測試案例充足<br>
+                • 註解清楚易懂
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 技術環境 -->
+    <div class="section">
+      <h2>🛠️ 技術環境</h2>
+      <div class="requirements-grid">
+        <div class="requirement-card">
+          <h4>📦 技術棧</h4>
+          <ul>
+            <li>Spring Boot 3.5</li>
+            <li>H2 記憶體資料庫</li>
+            <li>JPA/Hibernate</li>
+            <li>JUnit 5 + Mockito</li>
+          </ul>
+        </div>
+
+        <div class="requirement-card">
+          <h4>🎯 Sample Code</h4>
+          <ul>
+            <li>Card、Merchant、Transaction 已提供</li>
+            <li>基本 Repository 已建立</li>
+            <li>TransactionService 已實作</li>
+            <li>需新增 Alert 相關功能</li>
+          </ul>
+        </div>
+
+        <div class="requirement-card">
+          <h4>🔧 開發工具</h4>
+          <ul>
+            <li>IBM Bob IDE</li>
+            <li>Git 版本控制</li>
+            <li>Maven 建置工具</li>
+            <li>Postman/curl 測試</li>
+          </ul>
+        </div>
+
+        <div class="requirement-card">
+          <h4>📚 參考資源</h4>
+          <ul>
+            <li>Bob 官方文件</li>
+            <li>Spring Boot 文件</li>
+            <li>專案 README.md</li>
+            <li>現有程式碼範例</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <h2>🚀 準備好接受挑戰了嗎？</h2>
+      <p>這是一個開放式的實戰挑戰</p>
+      <p>發揮你的創意，善用 IBM Bob，展現你的開發實力！</p>
+      <a href="#" class="cta-button">開始挑戰 →</a>
+      
+      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+        <p style="font-size: 0.9rem; color: var(--muted);">
+          💡 記住：沒有標準答案，只要達成學習目標並完成檢查清單即可！
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
