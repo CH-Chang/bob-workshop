@@ -3,39 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IBM Bob Workshop - 信用卡交易監控系統挑戰</title>
+  <title>IBM Bob Workshop - 交通卡使用分析系統挑戰</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/workshop-theme.css">
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>💳 信用卡交易監控系統</h1>
+      <h1>🎟️ 交通卡使用分析系統</h1>
       <p class="subtitle">IBM Bob Workshop 挑戰</p>
       <p class="company"></p>
-      <div class="challenge-badge">⏱️ 時長：2 小時 | 難度：⭐⭐⭐ 中等</div>
+      <div class="challenge-badge">⏱️ 時長：2 小時 | 難度：⭐⭐⭐⭐</div>
     </header>
-
-    <!-- 專案資源 -->
-    <div class="section">
-      <h2>📦 專案資源</h2>
-      <div class="success-box">
-        <h4>🔗 GitHub Repository</h4>
-        <p style="margin-bottom: 12px;">Sample Application 程式碼位於：</p>
-        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">https://github.com/owhc/bob-workshop.git</pre>
-        <p style="margin-top: 12px; font-size: 0.9rem; color: var(--muted);">
-          專案路徑：<code>topics/transaction-monitor/</code>
-        </p>
-      </div>
-    </div>
 
     <!-- 挑戰概述 -->
     <div class="section">
       <h2>🎯 挑戰概述</h2>
       <div class="challenge-box">
         <h3>你的任務</h3>
-        <p>你是資深開發工程師，公司需要為現有的信用卡交易系統新增<strong>即時交易監控功能</strong>，以識別異常交易模式並提供風險預警。</p>
-        <p>你將使用 <strong>IBM Bob</strong> 作為 AI 開發助手，從現有的 Sample Code 基礎上，快速實作這個關鍵的安全功能。</p>
+        <p>你是開發工程師，公司需要為現有的交通卡交易系統新增<strong>旅程使用分析功能</strong>，以了解乘客行為、優化班次安排，並支援營運決策。</p>
+        <p>你將使用 <strong>IBM Bob</strong> 作為 AI 開發助手，從現有的 Sample Code 基礎上，快速實作這個數據導向的分析功能。</p>
       </div>
 
       <div class="warning-box">
@@ -59,7 +46,7 @@
           <li>撰寫專案 Rules 確保程式碼品質</li>
           <li>建立 AGENTS.md 指導 AI 助手</li>
           <li>建立 SKILL.md 記錄技術知識</li>
-          <li>實作金融系統的安全最佳實踐</li>
+          <li>實作複雜的資料聚合與統計分析</li>
         </ul>
       </div>
     </div>
@@ -67,168 +54,193 @@
     <!-- 功能需求 -->
     <div class="section">
       <h2>📋 功能需求</h2>
-      <p style="margin-bottom: 20px;">你需要實作以下 2 個核心功能模組：</p>
+      <p style="margin-bottom: 20px;">可挑選實作以下 1 個核心分析功能：</p>
       
       <div class="requirements-grid">
         <div class="requirement-card">
-          <h4>🚨 模組 1：異常偵測引擎</h4>
+          <h4>📊 模組 1：熱門路線分析</h4>
           <p style="margin-bottom: 12px; color: var(--muted); font-size: 0.95rem;">
-            <strong>功能說明</strong>：針對現有交易資料進行異常模式偵測
+            <strong>功能說明</strong>：統計最多人搭乘的起迄站組合 Top 10
           </p>
           <ul>
-            <li>✅ 高額交易偵測：單筆金額 > 50,000 元</li>
-            <li>✅ 頻繁交易偵測：1 小時內同一卡片 > 5 筆交易</li>
-            <li>✅ 重複交易偵測：5 分鐘內相同卡片、商店、金額</li>
+            <li>✅ 統計各起迄站組合的搭乘次數</li>
+            <li>✅ 計算各路線的總收入</li>
+            <li>✅ 依搭乘次數排序，取前 10 名</li>
           </ul>
           <div style="margin-top: 16px; padding: 12px; background: rgba(0, 102, 204, 0.05); border-radius: 6px; border-left: 3px solid var(--accent);">
-            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>實作方式</strong>：</p>
+            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>要實作的功能</strong>：</p>
             <ul style="font-size: 0.9rem; color: var(--muted);">
-              <li>使用現有 <code>TransactionService</code> 查詢方法</li>
-              <li>分析交易資料（data.sql 或新增的交易）</li>
-              <li>產生 <code>TransactionAlert</code> 警示記錄</li>
+              <li>建立 <code>Journey</code> Entity（旅程記錄）</li>
+              <li>建立 <code>JourneyRepository</code> 與查詢方法</li>
+              <li>建立 <code>JourneyService</code> 實作分析邏輯</li>
+              <li>建立 <code>JourneyController</code> 提供 API</li>
+              <li>API 端點：<code>GET /api/journeys/popular-routes</code></li>
             </ul>
           </div>
         </div>
 
         <div class="requirement-card">
-          <h4>📊 模組 2：警示管理系統</h4>
+          <h4>⏰ 模組 2：尖峰時段分析</h4>
           <p style="margin-bottom: 12px; color: var(--muted); font-size: 0.95rem;">
-            <strong>功能說明</strong>：管理偵測到的異常交易警示
+            <strong>功能說明</strong>：統計各時段（0-23 小時）的進站人數
           </p>
           <ul>
-            <li>🔍 警示查詢：依狀態、風險等級、時間範圍篩選</li>
-            <li>📈 統計報表：警示數量、風險分布、處理狀態</li>
-            <li>✅ 警示處理：標記為已處理/誤報</li>
+            <li>✅ 依小時（0-23）統計進站人數</li>
+            <li>✅ 識別尖峰時段（人數最多的時段）</li>
+            <li>✅ 回傳完整的 24 小時分布資料</li>
           </ul>
           <div style="margin-top: 16px; padding: 12px; background: rgba(0, 168, 150, 0.05); border-radius: 6px; border-left: 3px solid var(--accent2);">
-            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>實作方式</strong>：</p>
+            <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>要實作的功能</strong>：</p>
             <ul style="font-size: 0.9rem; color: var(--muted);">
-              <li>建立 <code>AlertRepository</code> 和 <code>AlertService</code></li>
-              <li>實作 RESTful API 端點</li>
-              <li>提供查詢、統計、處理功能</li>
+              <li>在 <code>JourneyRepository</code> 新增時段查詢方法</li>
+              <li>在 <code>JourneyService</code> 實作時段分析邏輯</li>
+              <li>在 <code>JourneyController</code> 新增 API 端點</li>
+              <li>API 端點：<code>GET /api/journeys/peak-hours</code></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 現有 API -->
+    <!-- 現有系統 -->
     <div class="section">
-      <h2>✅ 現有 API 功能</h2>
-      <p style="margin-bottom: 20px;">Sample Code 已提供以下交易查詢 API：</p>
+      <h2>✅ 現有系統架構</h2>
+      <p style="margin-bottom: 20px;">Sample Code 已提供以下基礎功能：</p>
       
       <div class="evaluation-table">
         <table>
           <thead>
             <tr>
-              <th>HTTP 方法</th>
-              <th>端點</th>
-              <th>功能說明</th>
+              <th>元件</th>
+              <th>說明</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions</td>
-              <td>查詢所有交易</td>
+              <td><strong>Card Entity</strong></td>
+              <td>一卡通資料（卡號、餘額、類型）</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions/{id}</td>
-              <td>查詢單筆交易</td>
+              <td><strong>Station Entity</strong></td>
+              <td>車站資料（站名、路線）</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions/card/{cardId}</td>
-              <td>查詢指定卡片的交易</td>
+              <td><strong>Transaction Entity</strong></td>
+              <td>交易記錄（進站、出站記錄）</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions/recent?hours=24</td>
-              <td>查詢最近 N 小時交易</td>
+              <td><strong>Repository 層</strong></td>
+              <td>基本的資料存取介面</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions/high-amount?threshold=50000</td>
-              <td>查詢高額交易</td>
-            </tr>
-            <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/transactions/statistics</td>
-              <td>交易統計資料</td>
+              <td><strong>H2 資料庫</strong></td>
+              <td>記憶體資料庫，含測試資料</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- 待實作 API -->
+    <!-- 待實作功能 -->
     <div class="section">
-      <h2>🔌 待實作 API</h2>
-      <p style="margin-bottom: 20px;">你需要實作以下警示管理 API：</p>
+      <h2>🔌 待實作功能</h2>
+      <p style="margin-bottom: 20px;">你需要實作以下核心元件：</p>
       
       <div class="evaluation-table">
         <table>
           <thead>
             <tr>
-              <th>HTTP 方法</th>
-              <th>端點</th>
-              <th>功能說明</th>
+              <th>元件</th>
+              <th>說明</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>POST</strong></td>
-              <td>/api/transactions</td>
-              <td>新增交易（方案 B 需要）</td>
+              <td><strong>Journey Entity</strong></td>
+              <td>旅程記錄（起迄站、時間、票價、時長）</td>
             </tr>
             <tr>
-              <td><strong>POST</strong></td>
-              <td>/api/alerts/detect</td>
-              <td>手動觸發異常偵測</td>
+              <td><strong>JourneyRepository</strong></td>
+              <td>旅程資料存取介面（含複雜查詢）</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/alerts</td>
-              <td>查詢警示列表</td>
+              <td><strong>JourneyService</strong></td>
+              <td>旅程分析業務邏輯</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/alerts/high-risk</td>
-              <td>查詢高風險警示</td>
+              <td><strong>JourneyController</strong></td>
+              <td>RESTful API 端點</td>
             </tr>
             <tr>
-              <td><strong>GET</strong></td>
-              <td>/api/alerts/statistics</td>
-              <td>取得統計報表</td>
-            </tr>
-            <tr>
-              <td><strong>PATCH</strong></td>
-              <td>/api/alerts/{id}/resolve</td>
-              <td>處理並結案警示</td>
+              <td><strong>DTO 類別</strong></td>
+              <td>API 回應資料結構</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="warning-box" style="margin-top: 24px;">
-        <h4>💡 實作方案選擇</h4>
-        <p><strong>方案 A：手動偵測（簡化版）</strong></p>
-        <ul style="margin-left: 24px; margin-bottom: 16px;">
-          <li>透過 <code>POST /api/alerts/detect</code> 手動觸發偵測</li>
-          <li>分析 data.sql 中的現有交易資料</li>
-          <li>適合 Workshop 快速展示</li>
-        </ul>
+        <h4>💡 實作建議</h4>
         
-        <p><strong>方案 B：自動偵測（完整版）⭐ 推薦</strong></p>
+        <p style="margin-bottom: 16px;"><strong>建議實作順序</strong></p>
+        <ol style="margin-left: 24px; margin-bottom: 16px;">
+          <li style="margin-bottom: 12px;"><strong>分析現有系統</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>檢視現有的 Card、Station、Transaction Entity</li>
+              <li>了解資料庫結構與關聯</li>
+              <li>查看 data.sql 中的測試資料</li>
+            </ul>
+          </li>
+          
+          <li style="margin-bottom: 12px;"><strong>設計 Journey Entity</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>定義旅程記錄所需的欄位</li>
+              <li>建立與 Station 的關聯</li>
+              <li>考慮如何儲存時間與金額資料</li>
+            </ul>
+          </li>
+          
+          <li style="margin-bottom: 12px;"><strong>建立 Repository 層</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>建立 JourneyRepository 介面</li>
+              <li>設計查詢方法來支援兩個分析功能</li>
+              <li>考慮使用聚合查詢（分組、計數、排序）</li>
+            </ul>
+          </li>
+          
+          <li style="margin-bottom: 12px;"><strong>實作 Service 層</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>建立 JourneyService 類別</li>
+              <li>實作熱門路線分析邏輯</li>
+              <li>實作尖峰時段分析邏輯</li>
+              <li>處理資料轉換與業務規則</li>
+            </ul>
+          </li>
+          
+          <li style="margin-bottom: 12px;"><strong>建立 Controller 層</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>建立 JourneyController 類別</li>
+              <li>實作兩個 API 端點</li>
+              <li>定義適當的回應格式</li>
+            </ul>
+          </li>
+          
+          <li style="margin-bottom: 12px;"><strong>測試與驗證</strong>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>撰寫單元測試</li>
+              <li>使用 Postman 或瀏覽器測試 API</li>
+              <li>驗證資料正確性</li>
+            </ul>
+          </li>
+        </ol>
+        
+        <p style="margin-top: 16px;"><strong>技術考量重點</strong>：</p>
         <ul style="margin-left: 24px;">
-          <li>實作 <code>POST /api/transactions</code> 新增交易 API</li>
-          <li>每次新增交易時自動觸發異常偵測</li>
-          <li>更貼近真實業務場景</li>
-          <li>可透過 API 動態新增測試資料</li>
+          <li>如何有效地進行資料分組與統計？</li>
+          <li>如何從時間欄位提取小時資訊？</li>
+          <li>如何設計清晰的 API 回應結構？</li>
+          <li>如何確保查詢效能？</li>
         </ul>
-        
-        <p style="margin-top: 16px;"><strong>建議</strong>：先實作方案 A 驗證偵測邏輯，再擴充方案 B 完善功能</p>
       </div>
     </div>
 
@@ -241,32 +253,31 @@
         <h4>必要產出</h4>
         <ul>
           <li><strong>自訂 Slash Command</strong>：建立 <code>/security-scan</code> 指令
-            <br><span style="font-size: 0.9rem; color: var(--muted);">用途：執行應用程式安全掃描，檢查 SQL Injection、輸入驗證、敏感資料處理等安全問題</span>
+            <br><span style="font-size: 0.9rem; color: var(--muted);">用途：讓 Bob 執行程式碼安全掃描，檢查 SQL Injection、輸入驗證、敏感資料處理等安全問題</span>
           </li>
           <li><strong>編碼規範</strong>：撰寫 <code>.bob/rules/coding-standards.md</code></li>
           <li><strong>安全規範</strong>：撰寫 <code>.bob/rules/security-rules.md</code></li>
           <li><strong>AI 指引</strong>：建立 <code>.bob/AGENTS.md</code></li>
           <li><strong>技術知識庫</strong>：建立 <code>.bob/SKILL.md</code>
-            <br><span style="font-size: 0.9rem; color: var(--muted);">主題：金融系統開發最佳實踐（BigDecimal 使用、卡號遮罩、時間窗口計算）</span>
+            <br><span style="font-size: 0.9rem; color: var(--muted);">主題：捷運系統開發最佳實踐（資料驗證、查詢優化、安全處理）</span>
           </li>
         </ul>
       </div>
 
       <div class="success-box">
         <h4>💡 提示</h4>
-        <p>這些文件是幫助你更有效使用 Bob 的關鍵工具。Slash Command 可以讓 Bob 執行特定的分析任務，SKILL.md 則記錄專案的技術知識供 Bob 參考。</p>
+        <p>這些文件是幫助你更有效使用 Bob 的關鍵工具。Slash Command 讓 Bob 執行特定的程式碼安全檢查，SKILL.md 則記錄專案的技術知識供 Bob 參考。</p>
       </div>
     </div>
 
-    <!-- 如何使用 Sample Application -->
+    <!-- 啟動應用程式 -->
     <div class="section">
-      <h2>📖 如何使用 Sample Application 完成挑戰</h2>
-      <p style="margin-bottom: 20px;">本專案提供完整的 Sample Application，包含基礎交易查詢功能。你需要在此基礎上新增警示監控功能。</p>
+      <h2>🚀 啟動應用程式</h2>
+      <p style="margin-bottom: 20px;">按照以下步驟啟動 Spring Boot 應用程式：</p>
       
       <div class="challenge-box">
-        <h3>步驟 1：Clone 專案</h3>
-        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">git clone https://github.com/owhc/bob-workshop.git
-cd bob-workshop/topics/transaction-monitor</pre>
+        <h3>步驟 1：進入專案目錄</h3>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">cd topics/journey-analysis</pre>
         
         <h3 style="margin-top: 24px;">步驟 2：啟動應用程式</h3>
         <p style="margin-bottom: 12px;">選擇以下任一方式：</p>
@@ -279,30 +290,19 @@ cd bob-workshop/topics/transaction-monitor</pre>
         
         <h3 style="margin-top: 24px;">步驟 3：驗證啟動成功</h3>
         <p style="margin-bottom: 12px;">看到以下訊息表示啟動成功：</p>
-        <pre style="background: #2d2d2d; color: #50fa7b; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">Started TransactionMonitorApplication in X.XXX seconds</pre>
+        <pre style="background: #2d2d2d; color: #50fa7b; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">Started JourneyAnalysisApplication in X.XXX seconds</pre>
         
-        <h3 style="margin-top: 24px;">步驟 4：探索現有功能</h3>
+        <h3 style="margin-top: 24px;">步驟 4：存取應用程式</h3>
         <ul style="margin-left: 24px; margin-top: 12px;">
-          <li><strong>Web UI</strong>: <a href="http://localhost:8080" target="_blank" style="color: var(--accent);">http://localhost:8080</a> - 查看交易列表</li>
-          <li><strong>H2 資料庫控制台</strong>: <a href="http://localhost:8080/h2-console" target="_blank" style="color: var(--accent);">http://localhost:8080/h2-console</a> - 檢視資料庫內容
+          <li><strong>Web UI</strong>: <a href="http://localhost:8080" target="_blank" style="color: var(--accent);">http://localhost:8080</a></li>
+          <li><strong>H2 資料庫控制台</strong>: <a href="http://localhost:8080/h2-console" target="_blank" style="color: var(--accent);">http://localhost:8080/h2-console</a>
             <ul style="margin-left: 24px; margin-top: 8px; font-size: 0.9rem; color: var(--muted);">
-              <li>JDBC URL: <code>jdbc:h2:mem:uitc_db</code></li>
+              <li>JDBC URL: <code>jdbc:h2:mem:krtc_db</code></li>
               <li>Username: <code>sa</code></li>
               <li>Password: (留空)</li>
             </ul>
           </li>
-          <li><strong>API 文件</strong>: <a href="http://localhost:8080/swagger-ui.html" target="_blank" style="color: var(--accent);">http://localhost:8080/swagger-ui.html</a> - 測試現有 API</li>
-        </ul>
-
-        <h3 style="margin-top: 24px;">步驟 5：使用 Bob 開始開發</h3>
-        <p style="margin-bottom: 12px;">在 IBM Bob 中開啟專案，開始實作警示功能：</p>
-        <ul style="margin-left: 24px; font-size: 0.95rem;">
-          <li>📖 閱讀 <code>README.md</code> 了解專案結構</li>
-          <li>🔍 使用 Bob 分析現有的 <code>Transaction.java</code> 和 <code>TransactionService.java</code></li>
-          <li>💡 請 Bob 協助建立 <code>TransactionAlert</code> Entity</li>
-          <li>⚙️ 實作異常偵測邏輯</li>
-          <li>🔌 建立 Alert 相關 API 端點</li>
-          <li>📝 建立 Bob 相關文件（Rules、AGENTS.md、SKILL.md）</li>
+          <li><strong>API 文件</strong>: <a href="http://localhost:8080/swagger-ui.html" target="_blank" style="color: var(--accent);">http://localhost:8080/swagger-ui.html</a></li>
         </ul>
       </div>
       
@@ -332,11 +332,11 @@ cd bob-workshop/topics/transaction-monitor</pre>
           <div class="label">實作 Entity<br>Repository</div>
         </div>
         <div class="time-block">
-          <div class="time">30分</div>
-          <div class="label">實作偵測規則<br>Service 層</div>
+          <div class="time">35分</div>
+          <div class="label">實作分析邏輯<br>Service 層</div>
         </div>
         <div class="time-block">
-          <div class="time">30分</div>
+          <div class="time">25分</div>
           <div class="label">Bob 進階功能<br>文件建立</div>
         </div>
         <div class="time-block">
@@ -361,8 +361,8 @@ cd bob-workshop/topics/transaction-monitor</pre>
             <tr>
               <td><strong>功能完整性</strong></td>
               <td>
-                • TransactionAlert Entity 正確實作<br>
-                • 3 種偵測規則正確運作<br>
+                • Journey Entity 正確實作<br>
+                • 2 個分析功能正確運作<br>
                 • API 端點正常運作<br>
                 • 測試覆蓋充足
               </td>
@@ -380,7 +380,7 @@ cd bob-workshop/topics/transaction-monitor</pre>
               <td><strong>程式碼品質</strong></td>
               <td>
                 • 符合編碼規範<br>
-                • 符合安全規範<br>
+                • 查詢效能優化<br>
                 • 適當的錯誤處理<br>
                 • 良好的程式碼結構
               </td>
@@ -415,10 +415,10 @@ cd bob-workshop/topics/transaction-monitor</pre>
         <div class="requirement-card">
           <h4>🎯 Sample Code</h4>
           <ul>
-            <li>Card、Merchant、Transaction 已提供</li>
+            <li>Card、Station、Transaction 已提供</li>
             <li>基本 Repository 已建立</li>
-            <li>TransactionService 已實作</li>
-            <li>需新增 Alert 相關功能</li>
+            <li>測試資料已準備</li>
+            <li>需新增 Journey 分析功能</li>
           </ul>
         </div>
 
@@ -446,8 +446,8 @@ cd bob-workshop/topics/transaction-monitor</pre>
 
     <footer>
       <h2>🚀 準備好接受挑戰了嗎？</h2>
-      <p>這是一個開放式的實戰挑戰</p>
-      <p>發揮你的創意，善用 IBM Bob，展現你的開發實力！</p>
+      <p>這是一個數據導向的實戰挑戰</p>
+      <p>發揮你的創意，善用 IBM Bob，展現你的資料分析實力！</p>
       <a href="#" class="cta-button">開始挑戰 →</a>
       
       <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
