@@ -81,6 +81,7 @@ class StationServiceTest {
         verify(stationRepository, times(1)).findById(999L);
     }
 
+    @SuppressWarnings("null")
     @Test
     void testCreateStation_Success() {
         // Arrange
@@ -94,9 +95,10 @@ class StationServiceTest {
         assertNotNull(result);
         assertEquals("高雄車站", result.getName());
         verify(stationRepository, times(1)).findByCode("R3");
-        verify(stationRepository, times(1)).save(any(Station.class));
+        verify(stationRepository, times(1)).save(any());
     }
 
+    @SuppressWarnings("null")
     @Test
     void testCreateStation_DuplicateCode() {
         // Arrange
@@ -107,7 +109,7 @@ class StationServiceTest {
             stationService.createStation(testStation);
         });
         verify(stationRepository, times(1)).findByCode("R3");
-        verify(stationRepository, never()).save(any(Station.class));
+        verify(stationRepository, never()).save(any());
     }
 
     @Test

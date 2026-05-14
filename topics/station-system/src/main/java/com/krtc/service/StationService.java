@@ -38,6 +38,7 @@ public class StationService {
      * @return 車站資料
      * @throws RuntimeException 如果車站不存在
      */
+    @SuppressWarnings("null")
     public Station getStationById(Long id) {
         return stationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("車站不存在: ID = " + id));
@@ -86,6 +87,7 @@ public class StationService {
      * 
      * @param id 車站 ID
      */
+    @SuppressWarnings("null")
     public void deleteStation(Long id) {
         if (!stationRepository.existsById(id)) {
             throw new RuntimeException("車站不存在: ID = " + id);
