@@ -3,6 +3,7 @@ package com.uitc.service;
 import com.uitc.model.Transaction;
 import com.uitc.model.TransactionStatus;
 import com.uitc.repository.TransactionRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class TransactionService {
      * 根據ID查詢交易
      */
     @Transactional(readOnly = true)
-    public Transaction getTransactionById(Long id) {
+    public Transaction getTransactionById(@NonNull Long id) {
         return transactionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("交易不存在: " + id));
     }
@@ -54,7 +55,7 @@ public class TransactionService {
      * 查詢指定卡片的交易
      */
     @Transactional(readOnly = true)
-    public List<Transaction> getTransactionsByCardId(Long cardId) {
+    public List<Transaction> getTransactionsByCardId(@NonNull Long cardId) {
         return transactionRepository.findByCardId(cardId);
     }
     
@@ -79,7 +80,7 @@ public class TransactionService {
      * 計算指定卡片在指定時間內的交易數量
      */
     @Transactional(readOnly = true)
-    public long countRecentTransactions(Long cardId, int hours) {
+    public long countRecentTransactions(@NonNull Long cardId, int hours) {
         LocalDateTime since = LocalDateTime.now().minusHours(hours);
         return transactionRepository.countByCardIdAndTransactionTimeAfter(cardId, since);
     }
@@ -89,9 +90,9 @@ public class TransactionService {
      */
     @Transactional(readOnly = true)
     public List<Transaction> findPotentialDuplicates(
-            Long cardId, 
-            Long merchantId, 
-            BigDecimal amount, 
+            @NonNull Long cardId,
+            @NonNull Long merchantId,
+            @NonNull BigDecimal amount,
             int minutes) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = now.minusMinutes(minutes);
@@ -102,7 +103,7 @@ public class TransactionService {
     /**
      * 更新交易狀態
      */
-    public Transaction updateTransactionStatus(Long id, TransactionStatus status) {
+    public Transaction updateTransactionStatus(@NonNull Long id, @NonNull TransactionStatus status) {
         Transaction transaction = getTransactionById(id);
         transaction.setStatus(status);
         log.info("更新交易狀態: ID={}, 新狀態={}", id, status);
