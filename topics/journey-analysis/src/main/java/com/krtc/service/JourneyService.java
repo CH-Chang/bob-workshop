@@ -43,12 +43,6 @@ public class JourneyService {
     //     // 計算各路線總收入
     //     // 依搭乘次數排序，取前 10 名
     // }
-
-    // TODO: 學員實作 - 尖峰時段分析
-    // public List<PeakHourDto> getPeakHours() {
-    //     // 依小時（0-23）統計進站人數
-    //     // 回傳完整的 24 小時分布資料
-    // }
 }
 
 // Made with Bob
