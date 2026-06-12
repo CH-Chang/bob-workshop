@@ -88,48 +88,179 @@ uitc-transaction-monitor/
 
 ## 🎯 Workshop 任務
 
-### 階段 1：新增 TransactionAlert 實體（25 分鐘）
+### 👥 團隊分工建議（3+1 模式）
 
-使用 Bob 分析現有程式碼，新增交易警示功能：
+本 Workshop 採用 **3 人開發 + 1 人簡報** 的協作模式，充分展示 Bob 在程式開發與文件製作的多元應用。
 
-- 建立 `TransactionAlert` Entity
-- 建立 `AlertRepository` 介面
-- 建立基本 CRUD API
+---
 
-**提示**：參考 `Transaction.java` 的結構
+### **開發組（3 人）**
 
-### 階段 2：實作異常偵測規則（30 分鐘）
+#### **👤 Person A：基礎建設（難度 ⭐⭐）**
+**任務：TransactionAlert Entity + Repository + 基礎 API**
 
-實作 3 種偵測規則：
+**具體工作：**
+1. 建立 `TransactionAlert.java` Entity
+   - 參考 `Transaction.java` 結構
+   - 欄位：alertId, transactionId, alertType, severity, detectedAt, description
+2. 建立 `AlertRepository.java` 介面
+3. 建立 `AlertController.java` 基礎 CRUD API
+   - GET `/api/alerts` - 查詢所有警示
+   - GET `/api/alerts/{id}` - 查詢單筆警示
+   - GET `/api/alerts/transaction/{transactionId}` - 查詢交易的警示
 
-1. **高額交易**：單筆超過 50,000 元
-2. **頻繁交易**：1 小時內超過 5 筆
-3. **重複交易**：5 分鐘內相同金額相同商店
+**Bob 使用重點：**
+```
+使用 Bob Ask Mode 分析 Transaction.java 結構
+使用 Bob Code Mode 產生 Entity 與 Repository
+```
 
-**提示**：使用 `TransactionRepository` 的查詢方法
+**時間：25 分鐘**
 
-### 階段 3：Bob 進階功能（30 分鐘）
+---
 
-建立以下 Bob 相關文件：
+#### **👤 Person B：核心邏輯（難度 ⭐⭐⭐⭐）**
+**任務：AlertDetectionService - 3 種偵測規則**
 
-1. **Slash Command**: `/analyze-security`
-   - 用途：讓 Bob 分析程式碼安全性問題
-   - 檢查：卡號遮罩、SQL Injection、輸入驗證
+**具體工作：**
+1. 建立 `AlertDetectionService.java`
+2. 實作 3 種偵測規則：
+   - **高額交易**：單筆超過 50,000 元
+   - **頻繁交易**：1 小時內超過 5 筆（需查詢 TransactionRepository）
+   - **重複交易**：5 分鐘內相同金額相同商店（複雜查詢）
+3. 整合 TransactionRepository 與 AlertRepository
+4. 實作自動偵測邏輯（新交易觸發檢查）
 
-2. **Rules**: 
-   - `coding-standards.md`：編碼規範
-   - `security-rules.md`：安全規範
+**Bob 使用重點：**
+```
+使用 Bob 實作複雜查詢邏輯
+使用 Bob 優化效能（避免 N+1 查詢）
+使用 Bob 產生單元測試
+```
 
-3. **AGENTS.md**: AI 助手指引
+**時間：30 分鐘**
 
-4. **SKILL.md**: 技術知識庫
-   - 主題：金融系統開發最佳實踐
+---
 
-### 階段 4：測試與審查（20 分鐘）
+#### **👤 Person C：整合與進階功能（難度 ⭐⭐⭐）**
+**任務：前端整合 + Bob 進階功能**
 
-- 使用 Bob 產生測試
-- Code Review
-- 安全檢查
+**具體工作：**
+1. 前端警示顯示功能
+   - 在 `index.html` 加入警示列表區塊
+   - 在 `app.js` 加入 API 呼叫邏輯
+   - 在 `styles.css` 加入警示樣式（紅色/黃色/橙色）
+2. 建立 Bob 進階功能：
+   - **Slash Command**: `/analyze-security`
+   - **Rules**: `coding-standards.md` + `security-rules.md`
+   - **AGENTS.md**: AI 助手指引
+   - **SKILL.md**: 金融系統開發最佳實踐
+
+**Bob 使用重點：**
+```
+使用 Bob 產生前端程式碼
+使用 Bob 建立 Slash Command
+使用 Bob 撰寫 Rules 與 AGENTS.md
+```
+
+**時間：30 分鐘**
+
+---
+
+### **📊 簡報組（1 人）**
+
+#### **👤 Person D：技術簡報製作**
+**任務：使用 Bob + PPT SKILL 製作成果簡報**
+
+**簡報大綱（8-10 slides）：**
+
+1. **封面** - 信用卡交易監控系統開發成果
+2. **專案背景** - 客戶需求與技術挑戰
+3. **系統架構** - 現有系統 + 新增模組架構圖
+4. **開發成果 - Entity 設計** - TransactionAlert 資料模型
+5. **開發成果 - 偵測規則** - 3 種規則實作邏輯
+6. **開發成果 - API 端點** - REST API 設計與 Swagger UI
+7. **Bob 使用技巧** - Ask/Code Mode、Slash Commands、Rules
+8. **安全最佳實踐** - 卡號遮罩、SQL Injection 防護
+9. **Demo 展示** - 系統操作截圖與警示觸發範例
+10. **總結與心得** - 開發效率提升與學習收穫
+
+**Bob 使用方式：**
+```
+使用 PPT SKILL 製作技術簡報，主題：信用卡交易監控系統開發成果
+
+要求：
+- IBM 企業風格設計
+- 包含程式碼範例與架構圖
+- 加入 Demo 截圖
+- 專業技術呈現
+- 10 slides 以內
+```
+
+**時間分配：**
+- 0-15分鐘：與開發組討論大綱
+- 15-45分鐘：使用 Bob 產生簡報初稿
+- 45-75分鐘：根據開發進度更新內容、加入截圖
+- 75-90分鐘：最終潤飾與排練
+
+---
+
+### ⏱️ 整體時程規劃（90 分鐘）
+
+#### **Phase 1: 基礎建設（0-25 分鐘）**
+- Person A：完成 Entity + Repository + 基礎 API
+- Person B：研究 TransactionRepository 查詢方法
+- Person C：分析前端現有結構
+- Person D：與團隊討論簡報大綱
+
+#### **Phase 2: 核心開發（25-55 分鐘）**
+- Person A：協助 Person B 整合測試
+- Person B：實作 3 種偵測規則
+- Person C：開發前端警示功能
+- Person D：使用 Bob 產生簡報初稿
+
+#### **Phase 3: 整合與進階（55-75 分鐘）**
+- Person A/B/C：整合測試、Debug
+- Person C：建立 Slash Commands、Rules、AGENTS.md
+- Person D：更新簡報內容、加入截圖
+
+#### **Phase 4: 收尾與準備（75-90 分鐘）**
+- 全員：最終測試
+- Person C：使用 `/analyze-security` 檢查安全性
+- Person D：簡報最終潤飾
+- 全員：準備 Demo 與報告
+
+---
+
+### 🎯 依賴關係
+
+```
+Person A (Entity + Repository)
+    ↓
+Person B (Service - 偵測規則) ← 依賴 Person A
+    ↓
+Person C (Controller + 前端) ← 依賴 Person A & B
+    ↓
+Person D (簡報) ← 依賴全員成果
+```
+
+---
+
+### 💡 協作建議
+
+**關鍵同步點：**
+1. **25分鐘**：Person A 完成後，Person B/C 開始整合
+2. **55分鐘**：開發組提供截圖給 Person D
+3. **75分鐘**：全員 Review 簡報內容
+
+**避免衝突：**
+- Person A/B/C 各自負責不同檔案
+- 使用 Git 分支開發（可選）
+- 定期同步進度
+
+**彈性調整：**
+- 如果 Person B 提前完成，協助 Person C 前端開發
+- 如果 Person A 提前完成，協助撰寫測試或文件
 
 ## 📊 現有功能
 

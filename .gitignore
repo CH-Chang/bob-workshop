@@ -1,5 +1,6 @@
 # Ignore files
 *.log
+.DS_Store
 
 # Ignore temp folders
 temp/
@@ -13,6 +14,7 @@ questions.json
 
 # Bob AI settings
 .bob/
+AGENTS.md
 
 # Maven build outputs
 topics/*/target/

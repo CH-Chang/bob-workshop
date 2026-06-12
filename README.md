@@ -21,9 +21,10 @@ bob-workshop/
 ├── assets/                         # 共用資源
 │   └── workshop-theme.css          # Workshop 主題樣式
 ├── topics/                         # 實戰主題
-│   ├── transaction-monitor/        # 💳 信用卡交易監控系統
-│   ├── station-system/             # 🚇 捷運站務管理系統
-│   └── journey-analysis/           # 🗺️ 旅程分析系統
+│   ├── transaction-monitor/        # 💳 信用卡交易監控系統（開發者）
+│   ├── station-system/             # 🚇 捷運站務管理系統（開發者）
+│   ├── journey-analysis/           # 🗺️ 旅程分析系統（開發者）
+│   └── business-innovation/        # 🎯 數位轉型創新提案（非技術）
 └── README.md                       # 本文件
 ```
 
@@ -77,6 +78,39 @@ cd topics/station-system
 
 詳細說明請參考：[journey-analysis/journey-analysis.html](topics/journey-analysis/journey-analysis.html)
 
+---
+
+## 🎯 實戰主題：高雄捷運數位轉型創新提案
+
+**難度**：⭐ 入門
+**時長**：60 分鐘 + 5 分鐘 Pitch
+**適合對象**：經理、副理、產品負責人、業務分析師（無需技術背景）
+
+### 專案簡介
+🎭 **角色扮演式 Workshop**！你們是高雄捷運的數位轉型專案小組，使用 IBM Bob 分析三個現有系統，提出創新的數位服務提案，並在 90 分鐘內完成 Pitch 簡報！
+
+### 四大創新提案主題（4 選 1）
+- 🎮 **捷運集點遊戲化** - 搭乘賺點數，完成任務解鎖徽章
+- 🌟 **智慧通勤助理** - AI 個人化通勤建議服務
+- 🎁 **捷運生活圈** - 整合周邊商家的生活服務平台
+- 🏆 **綠色通勤獎勵** - 鼓勵環保通勤的永續計畫
+
+### 團隊分工（4 人協作）
+- **👔 Team Leader**（經理級）：策略方向、協調分工、最終 Pitch
+- **💼 Business Analyst**（副理級）：系統分析、商業價值、ROI 評估
+- **🎨 Innovation Designer**（產品負責人）：服務設計、使用者旅程
+- **📊 Presentation Master**（簡報專家）：提案簡報製作（15-18 slides）
+
+### 為什麼這個 Workshop 很特別？
+- ✅ **活潑有趣**：角色扮演 + 創意發想 + 5 分鐘 Pitch 競賽
+- ✅ **完全無需寫程式**：只需使用 Bob 提問和產生內容
+- ✅ **真實商業情境**：基於實際系統的創新提案
+- ✅ **快速產出**：60 分鐘完成專業級提案簡報
+- ✅ **團隊協作**：4 人分工，發揮各自專長
+- ✅ **精準時間控制**：5 分鐘 Pitch 訓練高效簡報技巧
+
+詳細說明請參考：[business-innovation/README.md](topics/business-innovation/README.md)
+
 ## 🚀 如何使用本專案
 
 ### 1. Clone 專案
@@ -86,10 +120,16 @@ cd bob-workshop
 ```
 
 ### 2. 選擇實戰主題
-根據你的興趣和時間選擇適合的主題：
-- 初學者：從 `station-system` 開始
-- 中級開發者：嘗試 `transaction-monitor`
-- 進階挑戰：挑戰 `journey-analysis`
+
+#### 🎯 非技術人員（經理、副理、PM、BA）
+- 選擇 `business-innovation`（創新提案 + 5 分鐘 Pitch）
+- 活潑有趣的角色扮演式 Workshop
+- 60 分鐘準備 + 5 分鐘正式 Pitch
+
+#### 💻 開發者
+- **初學者**：從 `station-system` 開始
+- **中級開發者**：嘗試 `transaction-monitor`
+- **進階挑戰**：挑戰 `journey-analysis`
 
 ### 3. 啟動 Sample Application
 每個主題都包含完整的 Spring Boot 應用程式：

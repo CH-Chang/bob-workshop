@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高雄捷運數位轉型創新提案 - IBM Bob Workshop</title>
+    <link rel="stylesheet" href="../../assets/workshop-theme.css">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c44569 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #ff6b6b;
+            cursor: pointer;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .scenario-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-card .concept {
+            background: #fff5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .team-member .role {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member .time {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ff6b6b, #667eea);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 0 2rem;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px white, 0 0 0 8px #ff6b6b;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-box .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #f5576c;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 1rem 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-box .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .timeline-content {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎯 高雄捷運數位轉型創新提案</h1>
+            <p class="subtitle">IBM Bob Workshop - 創意發想與商業提案實戰</p>
+            <div>
+                <span class="badge">⭐ 入門級</span>
+                <span class="badge">🎭 角色扮演</span>
+                <span class="badge">⏱️ 60 分鐘 + 5 分鐘 Pitch</span>
+                <span class="badge">👥 4 人團隊</span>
+            </div>
+        </div>
+
+        <section>
+            <h2>🎪 Workshop 情境</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                你們是高雄捷運公司的<strong>數位轉型專案小組</strong>，公司已經有三個系統正在運作。
+                你們的任務是：使用 <strong>IBM Bob</strong> 分析這三個系統，提出一個<strong>創新的數位服務提案</strong>，
+                在 <strong>60 分鐘</strong>內完成提案簡報，並進行 <strong>5 分鐘 Pitch</strong>！
+            </p>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="number">3</div>
+                    <div class="label">現有系統</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">4</div>
+                    <div class="label">創新提案選項</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">60</div>
+                    <div class="label">分鐘準備</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">5</div>
+                    <div class="label">分鐘 Pitch</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">0</div>
+                    <div class="label">程式碼撰寫</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🎯 四大創新提案主題（4 選 1）</h2>
+            
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <div class="icon">🎮</div>
+                    <h3>提案 A：捷運集點遊戲化</h3>
+                    <div class="concept">
+                        將三個系統整合，打造捷運搭乘集點遊戲
+                    </div>
+                    <ul style="text-align: left; color: #666;">
+                        <li>搭乘捷運賺點數</li>
+                        <li>完成任務解鎖徽章</li>
+                        <li>點數兌換優惠券</li>
+                        <li>社群排行榜</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="icon">🌟</div>
+                    <h3>提案 B：智慧通勤助理</h3>
+                    <div class="concept">
+                        AI 個人化通勤建議服務
+                    </div>
+                    <ul style="text-align: left; color: #666;">
+                        <li>預測最佳搭乘時間</li>
+                        <li>推薦替代路線</li>
+                        <li>沿途美食推薦</li>
+                        <li>省時省錢建議</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="icon">🎁</div>
+                    <h3>提案 C：捷運生活圈</h3>
+                    <div class="concept">
+                        整合周邊商家的生活服務平台
+                    </div>
+                    <ul style="text-align: left; color: #666;">
+                        <li>站點周邊商家地圖</li>
+                        <li>限時優惠推播</li>
+                        <li>預約取貨服務</li>
+                        <li>會員聯盟折扣</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="icon">🏆</div>
+                    <h3>提案 D：綠色通勤獎勵</h3>
+                    <div class="concept">
+                        鼓勵環保通勤的永續計畫
+                    </div>
+                    <ul style="text-align: left; color: #666;">
+                        <li>碳足跡追蹤儀表板</li>
+                        <li>綠色通勤排行榜</li>
+                        <li>環保成就系統</li>
+                        <li>企業 ESG 合作方案</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="team-section">
+            <h2 style="text-align: center; margin-bottom: 2rem;">👥 4 人團隊角色</h2>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="role">👔 Team Leader</div>
+                    <div class="time">經理級 | 全程參與</div>
+                    <p>負責整體策略方向、協調團隊分工、5 分鐘 Pitch 主講</p>
+                    <strong>產出：</strong>專案目標與執行計畫
+                </div>
+
+                <div class="team-member">
+                    <div class="role">💼 Business Analyst</div>
+                    <div class="time">副理級 | 25 分鐘</div>
+                    <p>分析現有系統功能、找出商業機會、撰寫商業價值說明</p>
+                    <strong>產出：</strong>商業價值分析報告（精簡版）
+                </div>
+
+                <div class="team-member">
+                    <div class="role">🎨 Innovation Designer</div>
+                    <div class="time">產品負責人 | 25 分鐘</div>
+                    <p>發想創新服務、設計使用者體驗、規劃服務流程</p>
+                    <strong>產出：</strong>使用者旅程與服務藍圖（精簡版）
+                </div>
+
+                <div class="team-member">
+                    <div class="role">📊 Presentation Master</div>
+                    <div class="time">簡報專家 | 60 分鐘</div>
+                    <p>製作提案簡報、視覺化呈現、準備 5 分鐘 Pitch 腳本</p>
+                    <strong>產出：</strong>精簡提案簡報 (10-12 slides)
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>⏱️ 60 分鐘時程規劃 + 5 分鐘 Pitch</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Phase 1: 啟動與選題</h3>
+                        <p><strong>0-10 分鐘</strong></p>
+                        <ul>
+                            <li>快速投票選擇提案主題（A/B/C/D）</li>
+                            <li>分配角色任務</li>
+                            <li>快速 Kick-off</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Phase 2: 分析與發想</h3>
+                        <p><strong>10-35 分鐘</strong></p>
+                        <ul>
+                            <li>Team Leader：定義專案目標與 KPI（25 分鐘）</li>
+                            <li>Business Analyst：分析系統與商機（25 分鐘）</li>
+                            <li>Innovation Designer：設計服務體驗（25 分鐘）</li>
+                            <li>Presentation Master：製作簡報初稿（25 分鐘）</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Phase 3: 整合與優化</h3>
+                        <p><strong>35-55 分鐘</strong></p>
+                        <ul>
+                            <li>內容整合進簡報（8 分鐘）</li>
+                            <li>互相 Review（8 分鐘）</li>
+                            <li>使用 Bob 優化提案（4 分鐘）</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Phase 4: 排練與準備</h3>
+                        <p><strong>55-60 分鐘</strong></p>
+                        <ul>
+                            <li>分配 Pitch 段落（每人負責部分）</li>
+                            <li>排練 5 分鐘 Pitch</li>
+                            <li>準備 Q&A</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">🎤</div>
+                    <div class="timeline-content">
+                        <h3>正式 Pitch</h3>
+                        <p><strong>60 分鐘後 | 5 分鐘</strong></p>
+                        <ul>
+                            <li>簡報呈現：4 分鐘</li>
+                            <li>Q&A：1 分鐘</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>✨ 為什麼這個 Workshop 很特別？</h2>
+            
+            <div class="features">
+                <div class="feature-box">
+                    <div class="icon">🎭</div>
+                    <h4>角色扮演</h4>
+                    <p>真實商業情境，體驗專案團隊協作</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="icon">💡</div>
+                    <h4>創意發想</h4>
+                    <p>4 個創新提案主題，激發無限可能</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="icon">🚀</div>
+                    <h4>快速產出</h4>
+                    <p>60 分鐘完成專業級提案簡報</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="icon">🎯</div>
+                    <h4>實戰導向</h4>
+                    <p>基於真實系統，提案可直接應用</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="icon">👥</div>
+                    <h4>團隊協作</h4>
+                    <p>4 人分工，發揮各自專長</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="icon">🎤</div>
+                    <h4>5 分鐘 Pitch</h4>
+                    <p>精準時間控制，高效簡報技巧</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: #f8f9fa; padding: 2rem; border-radius: 10px; margin: 3rem 0;">
+            <h2>🎓 適合對象</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <strong>✅ 經理、副理</strong>
+                    <p style="font-size: 0.9rem; color: #666;">策略規劃與決策</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <strong>✅ 產品經理</strong>
+                    <p style="font-size: 0.9rem; color: #666;">產品設計與規劃</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <strong>✅ 業務分析師</strong>
+                    <p style="font-size: 0.9rem; color: #666;">商業分析與洞察</p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <strong>✅ 專案經理</strong>
+                    <p style="font-size: 0.9rem; color: #666;">專案管理與執行</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; font-weight: 600; color: #ff6b6b;">
+                ⚠️ 完全不需要程式設計能力！
+            </p>
+        </section>
+
+        <div class="cta-section">
+            <h2>準備好發揮創意了嗎？</h2>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">60 分鐘準備 + 5 分鐘 Pitch，展現你的創新提案！</p>
+            <a href="README.md" class="cta-button">📖 閱讀完整說明</a>
+            <a href="#" class="cta-button">🎯 開始 Workshop</a>
+        </div>
+
+        <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
+            <p><strong>IBM Bob Workshop</strong> - 高雄捷運數位轉型創新提案</p>
+            <p>專為非技術背景的管理者與產品人員設計</p>
+        </footer>
+    </div>
+</body>
+</html>
