@@ -1,10 +1,10 @@
 spring:
   application:
-    name: krtc-station-system
+    name: metro-station-system
   
   # H2 資料庫設定
   datasource:
-    url: jdbc:h2:mem:krtc
+    url: jdbc:h2:mem:metro
     driver-class-name: org.h2.Driver
     username: sa
     password: 
@@ -43,7 +43,7 @@ server:
 # Logging 設定
 logging:
   level:
-    com.krtc: DEBUG
+    com.metro: DEBUG
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
 

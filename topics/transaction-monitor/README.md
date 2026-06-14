@@ -1,7 +1,6 @@
 # 信用卡交易監控系統 - IBM Bob Workshop Sample
 
-> **客戶**：聯邦網通科技股份有限公司  
-> **用途**：IBM Bob Workshop 實戰演練  
+> **用途**：IBM Bob Workshop 實戰演練
 > **難度**：⭐⭐⭐ 中等
 
 ## 📋 專案簡介
@@ -42,7 +41,7 @@ mvn spring-boot:run
 
 - **Web UI**: http://localhost:8080
 - **H2 資料庫控制台**: http://localhost:8080/h2-console
-  - JDBC URL: `jdbc:h2:mem:uitc_db`
+  - JDBC URL: `jdbc:h2:mem:payment_db`
   - Username: `sa`
   - Password: (留空)
 - **API 端點**: http://localhost:8080/api/transactions
@@ -50,8 +49,8 @@ mvn spring-boot:run
 ## 📁 專案結構
 
 ```
-uitc-transaction-monitor/
-├── src/main/java/com/uitc/
+payment-transaction-monitor/
+├── src/main/java/com/payment/
 │   ├── TransactionMonitorApplication.java  # 主應用程式
 │   ├── model/                              # 資料模型
 │   │   ├── Card.java                       # ✅ 信用卡實體
@@ -306,7 +305,7 @@ Person D (簡報) ← 依賴全員成果
 
 3. **安全檢查**
    ```
-   /analyze-security src/main/java/com/uitc/controller/AlertController.java
+   /analyze-security src/main/java/com/payment/controller/AlertController.java
    ```
 
 ### 金融系統開發重點

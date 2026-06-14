@@ -1,9 +1,9 @@
 INSERT INTO cards (id, card_number, balance, card_type) VALUES
-(1, 'KRTC10000001', 520.00, 'ADULT'),
-(2, 'KRTC10000002', 340.00, 'STUDENT'),
-(3, 'KRTC10000003', 880.00, 'ADULT'),
-(4, 'KRTC10000004', 260.00, 'SENIOR'),
-(5, 'KRTC10000005', 150.00, 'ADULT');
+(1, 'METRO10000001', 520.00, 'ADULT'),
+(2, 'METRO10000002', 340.00, 'STUDENT'),
+(3, 'METRO10000003', 880.00, 'ADULT'),
+(4, 'METRO10000004', 260.00, 'SENIOR'),
+(5, 'METRO10000005', 150.00, 'ADULT');
 
 INSERT INTO stations (id, station_name, line_name) VALUES
 (1, '左營', '紅線'),

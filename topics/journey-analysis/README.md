@@ -1,7 +1,6 @@
 # 交通卡使用分析系統 - IBM Bob Workshop Sample
 
-> **客戶**：KRTC  
-> **用途**：IBM Bob Workshop 實戰演練  
+> **用途**：IBM Bob Workshop 實戰演練
 > **難度**：⭐⭐⭐⭐
 
 ## 📋 專案簡介
@@ -28,7 +27,7 @@ mvn spring-boot:run
 啟動後可存取：
 - Web UI: http://localhost:8080
 - H2 Console: http://localhost:8080/h2-console
-  - JDBC URL: `jdbc:h2:mem:krtc_db`
+  - JDBC URL: `jdbc:h2:mem:metro_db`
   - Username: `sa`
   - Password: 留空
 - Swagger UI: http://localhost:8080/swagger-ui.html
@@ -51,7 +50,7 @@ mvn spring-boot:run
 
 ```text
 topics/journey-analysis/
-├── src/main/java/com/krtc/
+├── src/main/java/com/metro/
 │   ├── JourneyAnalysisApplication.java
 │   ├── controller/          # 待實作
 │   ├── dto/                 # 待實作
