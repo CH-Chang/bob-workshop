@@ -178,7 +178,7 @@ sudo yum install git</code></pre>
 
                     <div class="card highlight">
                         <h3>4. Java 開發環境配置（Spring Boot 專案必要）</h3>
-                        <p>針對 Workshop 中的 Spring Boot 專案開發，所有參加者都需要安裝 JDK 和 Maven</p>
+                        <p>針對 Workshop 中的 Spring Boot 專案開發，所有參加者都需要安裝 JDK（專案已內建 Maven Wrapper，無需另外安裝 Maven）</p>
                         
                         <h4>步驟 1：Bob IDE 使用者 - 安裝 Java Extensions</h4>
                         <p>如果您使用 Bob IDE，請先安裝以下 Extensions：</p>
@@ -217,7 +217,7 @@ sudo yum install git</code></pre>
                         </div>
                         
                         <h4 style="margin-top: 24px;">步驟 2：安裝 JDK（Java Development Kit）</h4>
-                        <p>Workshop 專案使用 Spring Boot，需要 Java 17 或更新版本。</p>
+                        <p>Workshop 專案使用 Spring Boot，需要 Java 11 或更新版本。</p>
                         
                         <div style="border: 2px solid rgba(255, 0, 0, 0.4); background-color: rgba(255, 0, 0, 0.05); padding: 16px; border-radius: 8px; margin: 8px 0 16px 0;">
                             <h4 style="margin-top: 0; background: transparent; padding: 0; border: none; cursor: pointer; user-select: none;" onclick="toggleContent(this)">
@@ -225,17 +225,17 @@ sudo yum install git</code></pre>
                             </h4>
                             <ul style="margin-left: 24px; display: none;" class="toggle-content">
                                 <li><strong>方式 A：使用 Homebrew（推薦）</strong>
-                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 17
-brew install openjdk@17
+                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 11
+brew install openjdk@11
 
 # 設定環境變數
-echo 'export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc</code></pre>
                                 </li>
                                 <li style="margin-top: 12px;"><strong>方式 B：使用官方安裝程式</strong>
                                     <ol style="margin-left: 20px; margin-top: 8px;">
                                         <li>前往 <code>https://adoptium.net/</code></li>
-                                        <li>下載 Temurin JDK 17（LTS）for macOS</li>
+                                        <li>下載 Temurin JDK 11（LTS）for macOS</li>
                                         <li>開啟 <code>.pkg</code> 檔案並依照指示安裝</li>
                                     </ol>
                                 </li>
@@ -248,7 +248,7 @@ source ~/.zshrc</code></pre>
                             </h4>
                             <ol style="margin-left: 24px; display: none;" class="toggle-content">
                                 <li>前往 <code>https://adoptium.net/</code></li>
-                                <li>下載 Temurin JDK 17（LTS）for Windows</li>
+                                <li>下載 Temurin JDK 11（LTS）for Windows</li>
                                 <li>執行 <code>.msi</code> 安裝程式</li>
                                 <li>安裝時勾選「Set JAVA_HOME variable」和「Add to PATH」</li>
                                 <li>完成安裝後重新啟動命令提示字元</li>
@@ -261,13 +261,13 @@ source ~/.zshrc</code></pre>
                             </h4>
                             <ul style="margin-left: 24px; display: none;" class="toggle-content">
                                 <li><strong>Ubuntu/Debian</strong>
-                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 17
+                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 11
 sudo apt update
-sudo apt install openjdk-17-jdk -y</code></pre>
+sudo apt install openjdk-11-jdk -y</code></pre>
                                 </li>
                                 <li style="margin-top: 12px;"><strong>Red Hat/Fedora</strong>
-                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 17
-sudo yum install java-17-openjdk-devel -y</code></pre>
+                                    <pre style="margin-top: 8px;"><code># 安裝 OpenJDK 11
+sudo yum install java-11-openjdk-devel -y</code></pre>
                                 </li>
                             </ul>
                         </div>
@@ -275,56 +275,11 @@ sudo yum install java-17-openjdk-devel -y</code></pre>
                         <p style="margin-top: 16px;"><strong>驗證 JDK 安裝：</strong></p>
                         <pre><code>java -version
 javac -version</code></pre>
-                        <p style="margin-top: 8px;">預期輸出：<code>openjdk version "17.x.x"</code> 或更新版本</p>
+                        <p style="margin-top: 8px;">預期輸出：<code>openjdk version "11.x.x"</code> 或更新版本</p>
                         
-                        <h4 style="margin-top: 24px;">步驟 3：安裝 Maven</h4>
-                        <p>Workshop 專案使用 Maven 進行建置管理。</p>
-                        
-                        <div style="border: 2px solid rgba(255, 0, 0, 0.4); background-color: rgba(255, 0, 0, 0.05); padding: 16px; border-radius: 8px; margin: 8px 0 16px 0;">
-                            <h4 style="margin-top: 0; background: transparent; padding: 0; border: none; cursor: pointer; user-select: none;" onclick="toggleContent(this)">
-                                <span style="display: inline-block; width: 20px;">▶</span> 🍎 macOS 安裝 Maven：
-                            </h4>
-                            <div style="display: none;" class="toggle-content">
-                                <pre><code># 使用 Homebrew
-brew install maven</code></pre>
-                            </div>
+                        <div class="note">
+                            <strong>💡 關於 Maven</strong>：專案已內建 Maven Wrapper (<code>mvnw</code>)，無需另外安裝 Maven。Maven Wrapper 會自動下載並使用正確的 Maven 版本，確保團隊開發環境一致。
                         </div>
-                        
-                        <div style="border: 2px solid rgba(0, 0, 255, 0.4); background-color: rgba(0, 0, 255, 0.05); padding: 16px; border-radius: 8px; margin: 8px 0 16px 0;">
-                            <h4 style="margin-top: 0; background: transparent; padding: 0; border: none; cursor: pointer; user-select: none;" onclick="toggleContent(this)">
-                                <span style="display: inline-block; width: 20px;">▶</span> 🪟 Windows 安裝 Maven：
-                            </h4>
-                            <ol style="margin-left: 24px; display: none;" class="toggle-content">
-                                <li>前往 <code>https://maven.apache.org/download.cgi</code></li>
-                                <li>下載 Binary zip archive（例如：<code>apache-maven-3.9.x-bin.zip</code>）</li>
-                                <li>解壓縮到 <code>C:\Program Files\Apache\maven</code></li>
-                                <li>設定環境變數：
-                                    <ul style="margin-top: 8px;">
-                                        <li>新增系統變數 <code>MAVEN_HOME</code> = <code>C:\Program Files\Apache\maven</code></li>
-                                        <li>在 <code>Path</code> 變數中新增 <code>%MAVEN_HOME%\bin</code></li>
-                                    </ul>
-                                </li>
-                                <li>重新啟動命令提示字元</li>
-                            </ol>
-                        </div>
-                        
-                        <div style="border: 2px solid rgba(255, 193, 7, 0.4); background-color: rgba(255, 193, 7, 0.05); padding: 16px; border-radius: 8px; margin: 8px 0 16px 0;">
-                            <h4 style="margin-top: 0; background: transparent; padding: 0; border: none; cursor: pointer; user-select: none;" onclick="toggleContent(this)">
-                                <span style="display: inline-block; width: 20px;">▶</span> 🐧 Linux 安裝 Maven：
-                            </h4>
-                            <ul style="margin-left: 24px; display: none;" class="toggle-content">
-                                <li><strong>Ubuntu/Debian</strong>
-                                    <pre style="margin-top: 8px;"><code>sudo apt install maven -y</code></pre>
-                                </li>
-                                <li style="margin-top: 12px;"><strong>Red Hat/Fedora</strong>
-                                    <pre style="margin-top: 8px;"><code>sudo yum install maven -y</code></pre>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <p style="margin-top: 16px;"><strong>驗證 Maven 安裝：</strong></p>
-                        <pre><code>mvn -version</code></pre>
-                        <p style="margin-top: 8px;">預期輸出：<code>Apache Maven 3.x.x</code> 及 Java 版本資訊</p>
                     </div>
 
                     <div class="card highlight">
@@ -405,7 +360,7 @@ npm --version</code></pre>
                         <p style="margin-top: 8px;">預期輸出：<code>v22.x.x</code> 或更新版本</p>
                         
                         <h4 style="margin-top: 24px;">步驟 2：安裝 Bob Shell</h4>
-                        <p>Bob Shell 使用者請參考第 4 點完成 JDK 和 Maven 的安裝。</p>
+                        <p>Bob Shell 使用者請參考第 4 點完成 JDK 的安裝（Maven 已內建在專案中）。</p>
                         
                         <div style="border: 2px solid rgba(255, 0, 0, 0.4); background-color: rgba(255, 0, 0, 0.05); padding: 16px; border-radius: 8px; margin: 8px 0 16px 0;">
                             <h4 style="margin-top: 0; background: transparent; padding: 0; border: none; cursor: pointer; user-select: none;" onclick="toggleContent(this)">
@@ -661,7 +616,7 @@ npm --version</code></pre>
                     <p>祝您準備順利！</p>
                     <div class="version-info">
                         <p><strong>文件版本</strong>: 1.0.6</p>
-                        <p><strong>最後更新</strong>: 2026-05-22</p>
+                        <p><strong>最後更新</strong>: 2026-06-14</p>
                     </div>
                 </section>
             </div>
