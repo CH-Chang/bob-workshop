@@ -22,11 +22,24 @@
       <div class="success-box">
         <h4>🔗 GitHub Repository</h4>
         <p style="margin-bottom: 12px;">Sample Application 程式碼位於：</p>
-        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">https://github.com/owhc/bob-workshop.git</pre>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">https://github.com/icewater30012/bob-workshop.git</pre>
         <p style="margin-top: 12px; font-size: 0.9rem; color: var(--muted);">
           專案路徑：<code>topics/transaction-monitor/</code>
-          <p style="margin-bottom: 12px;"><b>請先 Fork 至自己的 Github 帳號下</b></p>
         </p>
+        
+        <div style="margin-top: 16px; padding: 12px; background: rgba(255, 193, 7, 0.1); border-radius: 6px; border-left: 3px solid #ffc107;">
+          <p style="margin-bottom: 8px;"><strong>⚠️ 團隊協作設定（重要）</strong></p>
+          <ol style="margin-left: 24px; font-size: 0.9rem;">
+            <li style="margin-bottom: 8px;"><strong>指定一位成員</strong> Fork 此 Repository 到自己的 GitHub 帳號</li>
+            <li style="margin-bottom: 8px;">其他團隊成員 <strong>Clone 該成員的 Fork</strong>（不是原始 Repo）</li>
+            <li style="margin-bottom: 8px;">所有人以 <strong>同一個 Repository</strong> 為基礎進行開發</li>
+            <li style="margin-bottom: 8px;">建議各自開 <strong>feature branch</strong> 進行開發（如 <code>feature/alert-entity</code>）</li>
+            <li>最後由 <strong>同一人負責整合</strong> 所有 branch 到 main</li>
+          </ol>
+          <p style="margin-top: 12px; font-size: 0.85rem; color: var(--muted);">
+            💡 這樣可以模擬真實的團隊協作流程，並避免多個 Fork 造成的整合問題
+          </p>
+        </div>
       </div>
 
       <div class="warning-box" style="margin-top: 24px;">
@@ -297,9 +310,16 @@
       <p style="margin-bottom: 20px;">本專案提供完整的 Sample Application，包含基礎交易查詢功能。你需要在此基礎上新增警示監控功能。</p>
       
       <div class="challenge-box">
-        <h3>步驟 1：Clone 專案</h3>
-        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;">git clone https://github.com/owhc/bob-workshop.git
+        <h3>步驟 1：Clone 團隊共用專案</h3>
+        <p style="margin-bottom: 12px; padding: 12px; background: rgba(255, 193, 7, 0.1); border-radius: 6px; border-left: 3px solid #ffc107;">
+          <strong>⚠️ 重要</strong>：請 Clone <strong>團隊成員 Fork 後的 Repository</strong>，而非原始專案
+        </p>
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; overflow-x: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; margin: 12px 0;"># 替換成團隊成員的 GitHub 帳號
+git clone https://github.com/[團隊成員帳號]/bob-workshop.git
 cd bob-workshop/topics/transaction-monitor</pre>
+        <p style="margin-top: 12px; font-size: 0.9rem; color: var(--muted);">
+          💡 確保所有團隊成員都從同一個 Fork 進行開發，才能順利協作
+        </p>
         
         <h3 style="margin-top: 24px;">步驟 2：啟動應用程式</h3>
         <p style="margin-bottom: 12px;">選擇以下任一方式：</p>
@@ -353,28 +373,95 @@ cd bob-workshop/topics/transaction-monitor</pre>
 
     <!-- 時間分配 -->
     <div class="section">
-      <h2>⏱️ 建議時間分配</h2>
+      <h2>⏱️ 建議時間分配（4 人團隊協作）</h2>
+      <p style="margin-bottom: 20px;">本 Workshop 採用 <strong>3 人開發 + 1 人簡報</strong> 的協作模式：</p>
+      
+      <div class="warning-box" style="margin-bottom: 24px;">
+        <h4>👥 團隊分工</h4>
+        <ul style="margin-left: 24px;">
+          <li><strong>Person A</strong>：Entity + Repository + 基礎 API（25 分鐘）</li>
+          <li><strong>Person B</strong>：Service 邏輯 + 偵測規則（30 分鐘）</li>
+          <li><strong>Person C</strong>：前端整合 + Bob 進階功能（30 分鐘）</li>
+          <li><strong>Person D</strong>：技術簡報製作（全程，使用 frontend-slides SKILL）</li>
+        </ul>
+      </div>
+
       <div class="time-allocation">
         <div class="time-block">
-          <div class="time">15分</div>
-          <div class="label">環境設定<br>需求分析</div>
+          <div class="time">0-20分</div>
+          <div class="label">環境設定<br>需求分析<br>團隊討論</div>
         </div>
         <div class="time-block">
-          <div class="time">25分</div>
-          <div class="label">實作 Entity<br>Repository</div>
+          <div class="time">20-45分</div>
+          <div class="label">Person A<br>資料層開發<br>Entity+Repository</div>
         </div>
         <div class="time-block">
-          <div class="time">30分</div>
-          <div class="label">實作偵測規則<br>Service 層</div>
+          <div class="time">45-75分</div>
+          <div class="label">Person B<br>業務邏輯實作<br>偵測+管理功能</div>
         </div>
         <div class="time-block">
-          <div class="time">30分</div>
-          <div class="label">Bob 進階功能<br>文件建立</div>
+          <div class="time">75-95分</div>
+          <div class="label">Person C<br>前端整合完成<br>提供截圖給 D</div>
         </div>
         <div class="time-block">
-          <div class="time">20分</div>
-          <div class="label">測試與審查<br>最終檢查</div>
+          <div class="time">95-110分</div>
+          <div class="label">全員協作<br>Bob 配置建立<br>A/B/C 分工撰寫</div>
         </div>
+        <div class="time-block">
+          <div class="time">110-120分</div>
+          <div class="label">全員 Review<br>簡報潤飾<br>最終檢查</div>
+        </div>
+      </div>
+
+      <div class="warning-box" style="margin-top: 24px;">
+        <h4>🔄 關鍵同步點與分工</h4>
+        <ul style="margin-left: 24px;">
+          <li><strong>0-20 分鐘</strong>：全員討論需求、設計架構、分配任務</li>
+          <li><strong>20-45 分鐘</strong>：Person A 建立資料層（TransactionAlert Entity + AlertRepository）</li>
+          <li><strong>45 分鐘</strong>：Person A 完成後，Person B 開始實作業務邏輯</li>
+          <li><strong>75 分鐘</strong>：Person B 完成後，Person C 開始前端整合</li>
+          <li><strong>95-110 分鐘</strong>：全員協作建立 Bob 配置
+            <ul style="margin-left: 20px; margin-top: 8px; font-size: 0.9rem;">
+              <li>Person A：撰寫 AGENTS.md（記錄資料層設計決策）</li>
+              <li>Person B：撰寫 coding-standards.md（提取程式碼規範）</li>
+              <li>Person C：建立 Slash Command + security-rules.md</li>
+              <li>Person D：根據開發成果更新簡報內容</li>
+            </ul>
+          </li>
+          <li><strong>110 分鐘</strong>：全員 Review 簡報內容與 Bob 配置</li>
+        </ul>
+        <p style="margin-top: 12px; font-size: 0.9rem; color: var(--muted);">
+          💡 <strong>提示</strong>：95-110 分鐘是全員協作的黃金時段，每個人根據自己的開發經驗貢獻 Bob 配置內容，確保文件反映實際開發實踐。
+        </p>
+      </div>
+
+      <div class="success-box" style="margin-top: 24px;">
+        <h4>❓ 為什麼兩個模組不能並行開發？</h4>
+        <p style="margin-bottom: 16px;">本專案的兩個模組有<strong>共同的資料層依賴</strong>：</p>
+        
+        <div style="margin-left: 20px; margin-bottom: 16px;">
+          <p style="margin-bottom: 12px;"><strong>🔍 依賴分析</strong></p>
+          <ul style="margin-left: 24px; font-size: 0.95rem;">
+            <li style="margin-bottom: 8px;"><strong>模組 1（異常偵測引擎）</strong>：分析現有 <code>Transaction</code> 資料，產生 <code>TransactionAlert</code> 警示記錄</li>
+            <li style="margin-bottom: 8px;"><strong>模組 2（警示管理系統）</strong>：管理已產生的 <code>TransactionAlert</code>（查詢、統計、處理）</li>
+            <li style="margin-bottom: 8px;">兩個模組都需要操作 <code>TransactionAlert</code> Entity 和 <code>AlertRepository</code></li>
+          </ul>
+        </div>
+
+        <div style="margin-left: 20px; margin-bottom: 16px;">
+          <p style="margin-bottom: 12px;"><strong>📊 開發順序</strong></p>
+          <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.6;">Person A 建立資料層
+├─ TransactionAlert Entity
+└─ AlertRepository
+        ↓
+Person B 實作業務邏輯
+├─ AlertDetectionService（偵測邏輯）
+└─ AlertController（管理 API）</pre>
+        </div>
+
+        <p style="margin-top: 16px; padding: 12px; background: rgba(0, 102, 204, 0.05); border-radius: 6px; border-left: 3px solid var(--accent);">
+          <strong>💡 重點</strong>：Person A 必須先完成 <code>TransactionAlert</code> Entity 和 <code>AlertRepository</code>，Person B 才能開始實作偵測與管理功能。
+        </p>
       </div>
     </div>
 
