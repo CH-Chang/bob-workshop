@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捷運車站管理系統 - 簡報</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; font-family: system-ui, -apple-system, sans-serif; }
+        .slide { 
+            display: none !important;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .slide.active { 
+            display: flex !important;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .code-block {
+            background: #1e293b; color: #e2e8f0; padding: 1rem;
+            border-radius: 0.5rem; overflow-x: auto;
+            font-family: 'Courier New', monospace; font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    
+    <!-- Slide 1: 封面 -->
+    <div class="slide active flex-col items-center justify-center p-8">
+        <div class="text-center space-y-8">
+            <h1 class="text-7xl font-bold text-blue-600">🚇 捷運車站管理系統</h1>
+            <h2 class="text-3xl text-gray-700">乘客回饋功能實作</h2>
+            <div class="flex gap-4 justify-center flex-wrap text-lg">
+                <span class="px-4 py-2 bg-blue-500 text-white rounded-full">Spring Boot 3.2.0</span>
+                <span class="px-4 py-2 bg-green-500 text-white rounded-full">H2 Database</span>
+                <span class="px-4 py-2 bg-purple-500 text-white rounded-full">Bootstrap 5</span>
+            </div>
+            <p class="text-xl text-gray-600 mt-12">使用 Bob AI 助手開發 • 2026 年 6 月</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: 專案概述 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">📋 專案概述</h1>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">🎯 專案背景</h3>
+                    <ul class="space-y-3 text-lg text-gray-700">
+                        <li>• 提升捷運服務品質</li>
+                        <li>• 收集乘客真實回饋</li>
+                        <li>• 即時追蹤處理狀態</li>
+                        <li>• 數據驅動決策</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">⚡ 核心功能</h3>
+                    <ul class="space-y-3 text-lg text-gray-700">
+                        <li>• 車站資訊管理</li>
+                        <li>• 乘客回饋提交</li>
+                        <li>• 評分與分類系統</li>
+                        <li>• 統計資料分析</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: 系統架構 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">🏗️ 系統架構</h1>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-blue-600 mb-4">前端架構</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h4 class="font-bold">UI 框架</h4>
+                            <p class="text-gray-600">Bootstrap 5 響應式設計</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-bold">JavaScript</h4>
+                            <p class="text-gray-600">Vanilla JS + Fetch API</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-green-600 mb-4">後端架構</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h4 class="font-bold">Spring Boot 3.2.0</h4>
+                            <p class="text-gray-600">Java 17 + Maven</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-bold">Spring Data JPA</h4>
+                            <p class="text-gray-600">Hibernate ORM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+                <h3 class="text-xl font-bold mb-3">📦 分層架構</h3>
+                <div class="flex justify-between items-center text-center text-sm">
+                    <div class="flex-1 bg-blue-600 py-3 rounded mx-1">Controller</div>
+                    <div class="text-2xl">→</div>
+                    <div class="flex-1 bg-green-600 py-3 rounded mx-1">Service</div>
+                    <div class="text-2xl">→</div>
+                    <div class="flex-1 bg-purple-600 py-3 rounded mx-1">Repository</div>
+                    <div class="text-2xl">→</div>
+                    <div class="flex-1 bg-orange-600 py-3 rounded mx-1">Database</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: 資料庫設計 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">🗄️ 資料庫設計</h1>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500">
+                    <h3 class="text-2xl font-bold mb-4">📍 Station 實體</h3>
+                    <div class="code-block text-sm">
+@Entity
+public class Station {
+    @Id Long id;
+    String code;  // 車站代碼
+    String name;  // 車站名稱
+    String line;  // 路線
+    LocalDateTime createdAt;
+}
+                    </div>
+                    <div class="mt-4 text-sm text-gray-600">
+                        <p>• 唯一識別碼</p>
+                        <p>• 車站基本資訊</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-green-500">
+                    <h3 class="text-2xl font-bold mb-4">💬 Feedback 實體</h3>
+                    <div class="code-block text-sm">
+@Entity
+public class Feedback {
+    @Id Long id;
+    @ManyToOne Station station;
+    Integer rating;   // 1-5 星
+    String category;  // 類別
+    String comment;   // 意見
+    String status;    // 狀態
+    LocalDateTime createdAt;
+}
+                    </div>
+                    <div class="mt-4 text-sm text-gray-600">
+                        <p>• 關聯車站資訊</p>
+                        <p>• 評分與分類</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-blue-500 to-green-500 p-6 rounded-xl text-white">
+                <h3 class="text-2xl font-bold mb-3">🔗 關聯關係</h3>
+                <div class="flex items-center justify-center text-xl">
+                    <div class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold">Station</div>
+                    <div class="px-6 text-2xl">1 : N</div>
+                    <div class="bg-white text-green-600 px-6 py-3 rounded-lg font-bold">Feedback</div>
+                </div>
+                <p class="text-center mt-4">一個車站可以有多個回饋</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: 後端 API 設計 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">🔌 後端 API 設計</h1>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-green-500 text-white rounded font-bold text-sm">POST</span>
+                        <code class="text-sm">/api/feedbacks</code>
+                    </div>
+                    <p class="text-gray-600">建立新回饋</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-blue-500 text-white rounded font-bold text-sm">GET</span>
+                        <code class="text-sm">/api/feedbacks</code>
+                    </div>
+                    <p class="text-gray-600">取得所有回饋</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-blue-500 text-white rounded font-bold text-sm">GET</span>
+                        <code class="text-sm">/api/feedbacks/{id}</code>
+                    </div>
+                    <p class="text-gray-600">取得單一回饋</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-orange-500 text-white rounded font-bold text-sm">PATCH</span>
+                        <code class="text-sm">/api/feedbacks/{id}/status</code>
+                    </div>
+                    <p class="text-gray-600">更新處理狀態</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-red-500 text-white rounded font-bold text-sm">DELETE</span>
+                        <code class="text-sm">/api/feedbacks/{id}</code>
+                    </div>
+                    <p class="text-gray-600">刪除回饋</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 bg-purple-500 text-white rounded font-bold text-sm">GET</span>
+                        <code class="text-sm">/api/feedbacks/statistics/*</code>
+                    </div>
+                    <p class="text-gray-600">統計資訊查詢</p>
+                </div>
+            </div>
+            <div class="bg-gray-800 text-white p-6 rounded-xl">
+                <h3 class="text-xl font-bold mb-3">📊 API 特色</h3>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div><div class="text-3xl mb-2">✅</div><div>RESTful 設計</div></div>
+                    <div><div class="text-3xl mb-2">🔒</div><div>輸入驗證</div></div>
+                    <div><div class="text-3xl mb-2">📝</div><div>完整文件</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: 核心功能展示 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">⭐ 核心功能展示</h1>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-blue-600 mb-4">🌟 評分系統</h3>
+                    <div class="flex gap-2 text-4xl mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 mb-3">1-5 星評分，直觀易用</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-green-600 mb-4">📂 分類管理</h3>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">清潔</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">服務</span>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">設施</span>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">安全</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">其他</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-purple-600 mb-4">🔄 狀態追蹤</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                            <span class="font-medium">待處理</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+                            <span class="font-medium">處理中</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            <span class="font-medium">已完成</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-orange-600 mb-4">📊 即時統計</h3>
+                    <div class="grid grid-cols-2 gap-3 text-center">
+                        <div class="bg-blue-50 p-3 rounded">
+                            <div class="text-3xl font-bold text-blue-600">156</div>
+                            <div class="text-sm text-gray-600">總回饋數</div>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded">
+                            <div class="text-3xl font-bold text-green-600">4.2</div>
+                            <div class="text-sm text-gray-600">平均評分</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: 技術挑戰與解決 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-6">
+            <h1 class="text-5xl font-bold text-blue-600">🔧 技術挑戰與解決</h1>
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3">❌ Hibernate Lazy Loading 序列化</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-bold text-red-600 mb-2">問題</h4>
+                            <p class="text-sm text-gray-600">Jackson 無法序列化 Hibernate 代理物件</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-600 mb-2">解決方案</h4>
+                            <div class="code-block text-xs">
+@JsonIgnoreProperties({
+    "hibernateLazyInitializer",
+    "handler"
+})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500">
+                    <h3 class="text-2xl font-bold mb-3">✅ 資料驗證</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-bold text-blue-600 mb-2">需求</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• 評分必須 1-5</li>
+                                <li>• 類別必須有效</li>
+                                <li>• Email 格式驗證</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-600 mb-2">解決方案</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Bean Validation</li>
+                                <li>• Service Layer 驗證</li>
+                                <li>• 前端即時驗證</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-3">📊 統計計算</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-bold text-purple-600 mb-2">需求</h4>
+                            <p class="text-sm">計算平均評分、分類分布、狀態統計</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-600 mb-2">解決方案</h4>
+                            <p class="text-sm">使用 Java Stream API + DTO 模式</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: 前端實作亮點 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">✨ 前端實作亮點</h1>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">📱</div>
+                    <h3 class="text-xl font-bold mb-2">響應式設計</h3>
+                    <p class="text-sm">完美適配各種裝置</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <h3 class="text-xl font-bold mb-2">即時更新</h3>
+                    <p class="text-sm">無需重新整理</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">✅</div>
+                    <h3 class="text-xl font-bold mb-2">表單驗證</h3>
+                    <p class="text-sm">前端即時驗證</p>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">🛡️</div>
+                    <h3 class="text-xl font-bold mb-2">錯誤處理</h3>
+                    <p class="text-sm">友善的錯誤提示</p>
+                </div>
+                <div class="bg-gradient-to-br from-pink-500 to-pink-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">🎨</div>
+                    <h3 class="text-xl font-bold mb-2">美觀 UI</h3>
+                    <p class="text-sm">Bootstrap 5 介面</p>
+                </div>
+                <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 rounded-xl text-white shadow-lg">
+                    <div class="text-4xl mb-3">🔍</div>
+                    <h3 class="text-xl font-bold mb-2">篩選功能</h3>
+                    <p class="text-sm">快速找到資料</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: 學習成果 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="max-w-5xl w-full space-y-8">
+            <h1 class="text-5xl font-bold text-blue-600">🎓 學習成果</h1>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-8 rounded-xl text-white shadow-lg">
+                    <h3 class="text-3xl font-bold mb-6">技術能力提升</h3>
+                    <ul class="space-y-3 text-lg">
+                        <li>✓ Spring Boot 開發</li>
+                        <li>✓ RESTful API 設計</li>
+                        <li>✓ 前後端整合</li>
+                        <li>✓ 問題解決能力</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-br from-green-500 to-green-600 p-8 rounded-xl text-white shadow-lg">
+                    <h3 class="text-3xl font-bold mb-6">專案管理</h3>
+                    <ul class="space-y-3 text-lg">
+                        <li>✓ 需求分析</li>
+                        <li>✓ 架構設計</li>
+                        <li>✓ 文件撰寫</li>
+                        <li>✓ 測試部署</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-4">專案統計</h3>
+                <div class="grid grid-cols-4 gap-6">
+                    <div>
+                        <div class="text-4xl font-bold text-blue-600">8</div>
+                        <div class="text-gray-600">API 端點</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-green-600">5</div>
+                        <div class="text-gray-600">實體類別</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-purple-600">3</div>
+                        <div class="text-gray-600">分層架構</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-orange-600">100%</div>
+                        <div class="text-gray-600">功能完成</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: 結語 -->
+    <div class="slide items-center justify-center p-8">
+        <div class="text-center space-y-12">
+            <h1 class="text-6xl font-bold text-blue-600">🎉 謝謝觀看</h1>
+            <div class="space-y-6 text-2xl text-gray-700">
+                <p>捷運車站管理系統</p>
+                <p>乘客回饋功能實作完成</p>
+            </div>
+            <div class="flex gap-6 justify-center text-lg">
+                <div class="bg-blue-100 px-6 py-3 rounded-lg">
+                    <div class="font-bold text-blue-700">GitHub</div>
+                    <div class="text-sm text-gray-600">bob-workshop</div>
+                </div>
+                <div class="bg-green-100 px-6 py-3 rounded-lg">
+                    <div class="font-bold text-green-700">Demo</div>
+                    <div class="text-sm text-gray-600">localhost:8080</div>
+                </div>
+            </div>
+            <p class="text-xl text-gray-500 mt-12">Q & A</p>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div style="position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: white; padding: 0.75rem 1.5rem; border-radius: 9999px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: flex; gap: 1rem; align-items: center; z-index: 1000;">
+        <button onclick="prevSlide()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: 600;">← 上一頁</button>
+        <span id="slideNumber" style="color: #374151; font-weight: 700;">1 / 10</span>
+        <button onclick="nextSlide()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: 600;">下一頁 →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideNumber').textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        document.getElementById('slideNumber').textContent = `1 / ${totalSlides}`;
+    </script>
+</body>
+</html>

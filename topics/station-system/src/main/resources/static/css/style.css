@@ -166,3 +166,157 @@ footer {
 }
 
 /* Made with Bob */
+
+/* ==================== 回饋功能樣式 ==================== */
+
+/* 統計卡片 */
+.stats-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.stats-card h2 {
+    color: var(--krtc-dark);
+    font-weight: bold;
+}
+
+.stats-card h5 {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 回饋卡片 */
+.feedback-card {
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.feedback-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 評分星星 */
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.2em;
+}
+
+/* 狀態標籤顏色 */
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.bg-info {
+    background-color: #0dcaf0 !important;
+}
+
+.bg-success {
+    background-color: #198754 !important;
+}
+
+/* 回饋表單 */
+#feedbackForm textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+#feedbackForm .form-control:focus,
+#feedbackForm .form-select:focus {
+    border-color: #0dcaf0;
+    box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+}
+
+/* 按鈕組樣式 */
+.btn-group .btn-outline-dark {
+    border-color: #495057;
+    color: #495057;
+}
+
+.btn-group .btn-outline-dark:hover,
+.btn-group .btn-outline-dark.active {
+    background-color: #495057;
+    border-color: #495057;
+    color: white;
+}
+
+/* 回饋列表容器 */
+#feedbackList {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+#feedbackList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#feedbackList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#feedbackList::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#feedbackList::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 回饋卡片內的選擇框 */
+.feedback-card select {
+    cursor: pointer;
+}
+
+/* 空狀態樣式 */
+#feedbackList .bi-inbox {
+    color: #6c757d;
+    opacity: 0.5;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .feedback-card .row {
+        flex-direction: column;
+    }
+    
+    .feedback-card .col-md-3 {
+        margin-top: 1rem;
+    }
+    
+    #feedbackList {
+        max-height: 400px;
+    }
+}
+
+/* 動畫效果 */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.stats-card:active {
+    animation: pulse 0.3s ease;
+}
